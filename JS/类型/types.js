@@ -8,5 +8,9 @@ typeof '': ${typeof ''}
 typeof Symbol(): ${typeof Symbol()}
 typeof {}: ${typeof {}}
 typeof console.log: ${typeof console.log}
+typeof NaN: ${typeof NaN}
+NaN === NaN: ${NaN === NaN}
+Object.is(NaN, NaN): ${Object.is(NaN, NaN)}
+Number.isNaN(NaN): ${Number.isNaN(NaN)}
 [] == ![]: ${[] == ![]}
 `)
