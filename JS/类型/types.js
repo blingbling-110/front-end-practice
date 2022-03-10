@@ -1,5 +1,6 @@
+// 8种基本数据类型，注意null和函数的typeof结果
 console.log(`
-8种基本数据类型
+利用typeof判断类型
 typeof undefined: ${typeof undefined}
 typeof null: ${typeof null}
 typeof false: ${typeof false}
@@ -21,9 +22,9 @@ Number.isNaN(NaN): ${Number.isNaN(NaN)}
 
 // 对象转基本类型
 const obj = {
-    valueOf: () => 0,
-    toString: () => '1',
-    [Symbol.toPrimitive]: () => 2,
+    [Symbol.toPrimitive]: () => 0, // 优先级最高
+    valueOf: () => 1, // 若没有定义[Symbol.toPrimitive]，则首先会调用 valueOf 然后调用 toString
+    toString: () => '2',
 }
 
 console.log(`
@@ -36,7 +37,8 @@ console.log(`
 'a' + + 'b' = ${'a' + + 'b'}
 [] == ![]: ${[] == ![]}
 `)
-/* 比较运算x==y，其中x和y是值，产生true或者false。这样的比较按如下方式进行：
+/*
+比较运算x==y，其中x和y是值，产生true或者false。这样的比较按如下方式进行：
 1.若Type(x)与Type(y)相同，则
     a.若Type(x)为Undefined，返回true
     b.若Type(x)为Null，返回true
@@ -54,3 +56,28 @@ console.log(`
 5.若Type(x)为String或Number，且Type(y)为Object，返回比较x == ToPrimitive(y)的结果。反之亦然
 6.若不属于以上情况则返回false
 */
+
+/*
+利用对象的内部属性[[class]]
+所有对象都有一个内部属性[[Class]]，不可读，不可枚举，不可修改，不可配置。注意，这不是传统的面向对象意义上的类
+两边出现__下划线__的属性都属于部分浏览器支持的属性。[[]]两个中括号括起来的属性属于JavaScript内部属性。
+JavaScript中一切皆对象，因此可以利用Object.prototype.toString()方法强制将变量zhuan转换成字符串从而暴露[[class]]
+注意：基本类型的[[class]]为它们的包装类型的[[class]]，undefined和null也有[[class]]
+*/
+function typeOf(obj) {
+    return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
+}
+console.log(`
+利用[[class]]判断类型，可以与上面利用typeof判断做对比，区别在于可以分辨出null
+typeOf(undefined): ${typeOf(undefined)}
+typeOf(null): ${typeOf(null)}
+typeOf(false): ${typeOf(false)}
+typeOf(0): ${typeOf(0)}
+typeOf(0n): ${typeOf(0n)}
+typeOf(''): ${typeOf('')}
+typeOf(Symbol()): ${typeOf(Symbol())}
+typeOf({}): ${typeOf({})}
+typeOf(console.log): ${typeOf(console.log)}
+typeOf(NaN): ${typeOf(NaN)}
+typeOf(Infinity): ${typeOf(Infinity)}
+`)
