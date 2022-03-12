@@ -33,7 +33,7 @@ function instanceOf(obj, clazz) {
         if (obj === target) {
             return true
         }
-    } while (obj === null)
+    } while (obj !== null)
     return false
 }
 console.log(`
