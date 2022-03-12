@@ -1,3 +1,6 @@
+console.log(`
+------------------ 原型链 ------------------
+`)
 function Foo() { }
 const foo = new Foo()
 
@@ -34,6 +37,7 @@ function instanceOf(obj, clazz) {
     return false
 }
 console.log(`
+------------------ 自定义instanceOf ------------------
 instanceOf(foo, Foo): ${instanceOf(foo, Foo)}
 instanceOf(Foo, Function): ${instanceOf(Foo, Function)}
 instanceOf({}, Object): ${instanceOf({}, Object)}

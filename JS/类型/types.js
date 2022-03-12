@@ -1,6 +1,6 @@
 // 8种基本数据类型，注意null和函数的typeof结果
 console.log(`
-利用typeof判断类型
+------------------ 利用typeof判断类型 ------------------
 typeof undefined: ${typeof undefined}
 typeof null: ${typeof null}
 typeof false: ${typeof false}
@@ -28,7 +28,7 @@ const obj = {
 }
 
 console.log(`
-类型转换规则
+------------------ 类型转换规则 ------------------
 1 + obj = ${1+obj}
 '1' + obj = ${'1' + obj}
 1 + '1' = ${1 + '1'}
@@ -68,7 +68,7 @@ function typeOf(obj) {
     return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
 }
 console.log(`
-利用[[Class]]判断类型，可以与上面利用typeof判断做对比，区别在于可以分辨出null
+------------------ 利用[[Class]]判断类型，可以与上面利用typeof判断做对比，区别在于可以分辨出null ------------------
 typeOf(undefined): ${typeOf(undefined)}
 typeOf(null): ${typeOf(null)}
 typeOf(false): ${typeOf(false)}

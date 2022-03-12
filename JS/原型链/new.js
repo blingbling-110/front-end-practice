@@ -15,6 +15,7 @@ function Bar(p) {
 }
 const bar = customNew(Bar, 0)
 console.log(`
+------------------ 自定义new ------------------
 bar.__proto__: `, bar.__proto__, `
 bar instanceof Bar: ${bar instanceof Bar}
 bar.p = ${bar.p}

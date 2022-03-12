@@ -5,6 +5,9 @@
 3.eval 执行上下文
 */
 
+console.log(`
+------------------ 提升与非匿名IIFE ------------------
+`)
 // 函数优先于变量提升
 foo()
 function foo() {
@@ -53,7 +56,7 @@ const context4 = (function () {
 })()
 
 console.log(`
-eval执行上下文
+------------------ eval执行上下文 ------------------
 eval('context'): ${context0}
 eval.call(null, 'context'): ${context1}
 (1, eval)('context'): ${context2}
