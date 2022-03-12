@@ -58,17 +58,17 @@ console.log(`
 */
 
 /*
-利用对象的内部属性[[class]]
-所有对象都有一个内部属性[[Class]]，不可读，不可枚举，不可修改，不可配置。注意，这不是传统的面向对象意义上的类
-两边出现__下划线__的属性都属于部分浏览器支持的属性。[[]]两个中括号括起来的属性属于JavaScript内部属性。
-JavaScript中一切皆对象，因此可以利用Object.prototype.toString()方法强制将变量zhuan转换成字符串从而暴露[[class]]
-注意：基本类型的[[class]]为它们的包装类型的[[class]]，undefined和null也有[[class]]
+利用对象的内部插槽[[Class]]
+所有对象都有一个内部插槽[[Class]]，不可读，不可枚举，不可修改，不可配置。注意，这不是传统的面向对象意义上的类
+两边出现__下划线__的属性都属于部分浏览器支持的属性。[[]]两个中括号括起来的属性属于JavaScript内部插槽。
+JavaScript中一切皆对象，因此可以利用Object.prototype.toString()方法强制将变量zhuan转换成字符串从而暴露[[Class]]
+注意：基本类型的[[Class]]为它们的包装类型的[[Class]]，undefined和null也有[[Class]]
 */
 function typeOf(obj) {
     return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
 }
 console.log(`
-利用[[class]]判断类型，可以与上面利用typeof判断做对比，区别在于可以分辨出null
+利用[[Class]]判断类型，可以与上面利用typeof判断做对比，区别在于可以分辨出null
 typeOf(undefined): ${typeOf(undefined)}
 typeOf(null): ${typeOf(null)}
 typeOf(false): ${typeOf(false)}

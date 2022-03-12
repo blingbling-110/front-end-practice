@@ -26,7 +26,10 @@ function outerQux() {
 }
 outerQux()
 
-// 对于let和const，还存在块级作用域
+/*
+对于let和const，还存在块级作用域
+代码块的本质是词法环境中的内部栈
+*/
 var a = 0
 let b = 1
 const c = 2
@@ -37,3 +40,14 @@ const c = 2
     console.log(`in block: a = ${a}, b = ${b}, c = ${c}`)
 }
 console.log(`out block: a = ${a}, b = ${b}, c = ${c}`)
+
+/*
+注意，在ES6之前，对于作用域链，可以把它理解成包含自身变量对象和上级变量对象的链表，
+通过[[Scope]]内部插槽查找上级变量
+对于ES6+，新的概念叫词法环境对象，包含词法环境和变量环境，它们都有外层引用outer，
+通过outer形成词法环境链。通过[[Environment]]内部插槽来查找上级变量
+变量环境本质上仍是词法环境，但它只存储var声明的变量
+
+因此，变量对象和[[Scope]]是ES6之前的概念，词法环境对象和[[Environment]]是ES6+的概念
+作用域链也可以称为词法环境链
+*/

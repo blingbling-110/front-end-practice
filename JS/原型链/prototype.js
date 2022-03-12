@@ -1,7 +1,7 @@
 function Foo() { }
 const foo = new Foo()
 
-// __proto__属性指向[[prototype]]内部属性
+// __proto__属性指向[[Prototype]]内部插槽
 console.log('Foo.prototype: ', Foo.prototype)
 console.log('Object.getPrototypeOf(foo) === foo.__proto__: ', Object.getPrototypeOf(foo) === foo.__proto__)
 console.log('Foo.prototype === foo.__proto__: ', Foo.prototype === foo.__proto__)
