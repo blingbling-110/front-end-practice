@@ -22,3 +22,19 @@ console.log('Function.prototype.bind().prototype: ', Function.prototype.bind().p
 console.log('Function.prototype: ', Function.prototype)
 console.log('typeof Function.prototype: ', typeof Function.prototype)
 // 此外，还有一个对象也是JS引擎创建出来的，那就是Object.prototype，因此也就不存在鸡生蛋蛋生鸡问题
+
+function instanceOf(obj, clazz) {
+    const target = clazz.prototype
+    do {
+        obj = obj.__proto__
+        if (obj === target) {
+            return true
+        }
+    } while (obj === null)
+    return false
+}
+console.log(`
+instanceOf(foo, Foo): ${instanceOf(foo, Foo)}
+instanceOf(Foo, Function): ${instanceOf(Foo, Function)}
+instanceOf({}, Object): ${instanceOf({}, Object)}
+`)
