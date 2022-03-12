@@ -2,7 +2,8 @@
 	- [ 类型](#head2)
 	- [ 原型链](#head3)
 	- [ 上下文和作用域](#head4)
-	- [ 消抖和节流](#head5)
+	- [ 深浅拷贝](#head5)
+	- [ 消抖和节流](#head6)
 # <span id="head1"> JS</span>
 
 ## <span id="head2"> 类型</span>
@@ -27,8 +28,14 @@
 - [JS执行上下文](https://github.com/blingbling-110/front-end-practice/blob/666514717c2885804a763d39eb7af4a6da29cce7/JS/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F/context.js#L1)
 - [变量的作用域](https://github.com/blingbling-110/front-end-practice/blob/666514717c2885804a763d39eb7af4a6da29cce7/JS/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F/scope.js#L5)
 - [变量对象和`Scope`内部插槽、词法环境对象和`Environment`内部插槽](https://github.com/blingbling-110/front-end-practice/blob/e4abbedaf3914b3659a72ea6e5792c689060a126/JS/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F/scope.js#L45)
+- [闭包和模拟私有变量](https://github.com/blingbling-110/front-end-practice/blob/0bf37383d59a4244bfb5fb570edcbe0ca86dceb8/JS/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F/closure.js#L2)
 
-## <span id="head5"> 消抖和节流</span>
+## <span id="head5"> 深浅拷贝</span>
+
+- [`Object.assign()`和扩展运算符](https://github.com/blingbling-110/front-end-practice/blob/0bf37383d59a4244bfb5fb570edcbe0ca86dceb8/JS/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/copy.js#L2)
+- [`JSON`方法和`MessageChannel`](https://github.com/blingbling-110/front-end-practice/blob/0bf37383d59a4244bfb5fb570edcbe0ca86dceb8/JS/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/copy.js#L14)
+
+## <span id="head6"> 消抖和节流</span>
 
 - [消抖中的立即执行参数](https://github.com/blingbling-110/front-end-practice/blob/7c0bdfacd088975866f2880c3596ecebe667662f/JS/%E6%B6%88%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/debounce.js#L1)
 - [节流中的开始执行参数和结束执行参数](https://github.com/blingbling-110/front-end-practice/blob/7c0bdfacd088975866f2880c3596ecebe667662f/JS/%E6%B6%88%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/throttle.js#L1)
