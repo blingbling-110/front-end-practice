@@ -22,6 +22,8 @@
 - [自定义`instanceOf`](https://github.com/blingbling-110/front-end-practice/blob/666514717c2885804a763d39eb7af4a6da29cce7/JS/%E5%8E%9F%E5%9E%8B%E9%93%BE/prototype.js#L26)
 - [自定义`new`](https://github.com/blingbling-110/front-end-practice/blob/666514717c2885804a763d39eb7af4a6da29cce7/JS/%E5%8E%9F%E5%9E%8B%E9%93%BE/new.js#L1)
 - [`new`的优先级](https://github.com/blingbling-110/front-end-practice/blob/666514717c2885804a763d39eb7af4a6da29cce7/JS/%E5%8E%9F%E5%9E%8B%E9%93%BE/new.js#L23)
+- [`ES5`寄生式组合继承](https://github.com/blingbling-110/front-end-practice/blob/bd8307403f92c8fe2ea5f31ea5e4a73d16fddae7/JS/%E5%8E%9F%E5%9E%8B%E9%93%BE/extends.js#L1)
+- [`ES6`语法糖继承](https://github.com/blingbling-110/front-end-practice/blob/bd8307403f92c8fe2ea5f31ea5e4a73d16fddae7/JS/%E5%8E%9F%E5%9E%8B%E9%93%BE/extends.js#L20)
 
 ## <span id="head4"> 上下文和作用域</span>
 
@@ -29,6 +31,9 @@
 - [变量的作用域](https://github.com/blingbling-110/front-end-practice/blob/666514717c2885804a763d39eb7af4a6da29cce7/JS/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F/scope.js#L5)
 - [变量对象和`Scope`内部插槽、词法环境对象和`Environment`内部插槽](https://github.com/blingbling-110/front-end-practice/blob/e4abbedaf3914b3659a72ea6e5792c689060a126/JS/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F/scope.js#L45)
 - [闭包和模拟私有变量](https://github.com/blingbling-110/front-end-practice/blob/0bf37383d59a4244bfb5fb570edcbe0ca86dceb8/JS/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F/closure.js#L2)
+- [`this`的指向](https://github.com/blingbling-110/front-end-practice/blob/bd8307403f92c8fe2ea5f31ea5e4a73d16fddae7/JS/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F/this.js#L4)
+- [自定义`call, apply, bind`](https://github.com/blingbling-110/front-end-practice/blob/bd8307403f92c8fe2ea5f31ea5e4a73d16fddae7/JS/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F/this.js#L23)
+- [函数的柯里化](https://github.com/blingbling-110/front-end-practice/blob/bd8307403f92c8fe2ea5f31ea5e4a73d16fddae7/JS/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F/this.js#L99)
 
 ## <span id="head5"> 深浅拷贝</span>
 
