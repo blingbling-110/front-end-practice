@@ -3,7 +3,9 @@
 	- [ 原型链](#head3)
 	- [ 上下文和作用域](#head4)
 	- [ 深浅拷贝](#head5)
-	- [ 消抖和节流](#head6)
+	- [ 模块化](#head6)
+	- [ 消抖和节流](#head7)
+	- [ Promise](#head8)
 # <span id="head1"> JS</span>
 
 ## <span id="head2"> 类型</span>
@@ -40,8 +42,21 @@
 - [`Object.assign()`和扩展运算符](https://github.com/blingbling-110/front-end-practice/blob/0bf37383d59a4244bfb5fb570edcbe0ca86dceb8/JS/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/copy.js#L2)
 - [`JSON`方法和`MessageChannel`](https://github.com/blingbling-110/front-end-practice/blob/0bf37383d59a4244bfb5fb570edcbe0ca86dceb8/JS/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/copy.js#L14)
 
-## <span id="head6"> 消抖和节流</span>
+## <span id="head6"> 模块化</span>
+
+- [`CommonJS`](https://github.com/blingbling-110/front-end-practice/blob/baf562fe84d501e41b643812671274440ba7dde9/JS/%E6%A8%A1%E5%9D%97%E5%8C%96/CJS/index.js#L1)
+- [`ES Module`](https://github.com/blingbling-110/front-end-practice/blob/baf562fe84d501e41b643812671274440ba7dde9/JS/%E6%A8%A1%E5%9D%97%E5%8C%96/ESM/index.mjs#L1)
+- [`CJS`和`ESM`的差异](https://github.com/blingbling-110/front-end-practice/blob/baf562fe84d501e41b643812671274440ba7dde9/JS/%E6%A8%A1%E5%9D%97%E5%8C%96/CJS/index.js#L11)
+- [`CJS`加载`ESM`模块](https://github.com/blingbling-110/front-end-practice/blob/baf562fe84d501e41b643812671274440ba7dde9/JS/%E6%A8%A1%E5%9D%97%E5%8C%96/CJS/index.js#L17)
+- [`ESM`加载`CJS`模块](https://github.com/blingbling-110/front-end-practice/blob/baf562fe84d501e41b643812671274440ba7dde9/JS/%E6%A8%A1%E5%9D%97%E5%8C%96/ESM/index.mjs#L8)
+
+## <span id="head7"> 消抖和节流</span>
 
 - [消抖中的立即执行参数](https://github.com/blingbling-110/front-end-practice/blob/7c0bdfacd088975866f2880c3596ecebe667662f/JS/%E6%B6%88%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/debounce.js#L1)
 - [节流中的开始执行参数和结束执行参数](https://github.com/blingbling-110/front-end-practice/blob/7c0bdfacd088975866f2880c3596ecebe667662f/JS/%E6%B6%88%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/throttle.js#L1)
 
+## <span id="head8"> Promise</span>
+
+- [`Promise/A+`规范](https://github.com/promises-aplus/promises-spec)
+- [`Promise/A+`测试](https://github.com/promises-aplus/promises-tests)
+- [自定义`Promise`](https://github.com/blingbling-110/front-end-practice/blob/baf562fe84d501e41b643812671274440ba7dde9/JS/Promise/index.js#L6)
