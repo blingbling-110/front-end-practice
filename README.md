@@ -6,6 +6,7 @@
 	- [ 模块化](#head6)
 	- [ 消抖和节流](#head7)
 	- [ Promise](#head8)
+	- [ Generator](#head9)
 # <span id="head1"> JS</span>
 
 ## <span id="head2"> 类型</span>
@@ -60,3 +61,8 @@
 - [`Promise/A+`规范](https://github.com/promises-aplus/promises-spec)
 - [`Promise/A+`测试](https://github.com/promises-aplus/promises-tests)
 - [自定义`Promise`](https://github.com/blingbling-110/front-end-practice/blob/baf562fe84d501e41b643812671274440ba7dde9/JS/Promise/index.js#L6)
+- [实现`Promise`静态方法](https://github.com/blingbling-110/front-end-practice/blob/a46173fa390dcbebbd8cb3646cfdcddcb219b940/JS/Promise/index.js#L195)
+
+## <span id="head9"> Generator</span>
+
+- [自定义`Generator`的简单实现](https://github.com/blingbling-110/front-end-practice/blob/a46173fa390dcbebbd8cb3646cfdcddcb219b940/JS/Generator/index.js#L37)
