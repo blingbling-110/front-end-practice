@@ -35,22 +35,23 @@ function foo() {
 下面简单实现自定义Generator:
 */
 function myGenerator(cb) {
-    const ctx = {
-        next: 0,
-        done: false,
-        stop: () => {
-            !done && (this.done = true)
-        }
+  let done = false
+  const ctx = {
+    next: 0,
+    done: false,
+    stop: () => {
+      !done && (done = true)
     }
-    return {
-        next: () => {
-            const value = cb(ctx)
-            return {
-                value,
-                done: ctx.done
-            }
-        }
+  }
+  return {
+    next: () => {
+      const value = cb(ctx)
+      return {
+        value,
+        done
+      }
     }
+  }
 }
 
 const g = foo()
