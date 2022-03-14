@@ -5,8 +5,10 @@
 	- [ 深浅拷贝](#head5)
 	- [ 模块化](#head6)
 	- [ 消抖和节流](#head7)
-	- [ Promise](#head8)
-	- [ Generator](#head9)
+	- [ `Promise`](#head8)
+	- [ `Generator`](#head9)
+	- [ 数组](#head10)
+	- [ `async`和`await`](#head11)
 # <span id="head1"> JS</span>
 
 ## <span id="head2"> 类型</span>
@@ -56,13 +58,24 @@
 - [消抖中的立即执行参数](https://github.com/blingbling-110/front-end-practice/blob/7c0bdfacd088975866f2880c3596ecebe667662f/JS/%E6%B6%88%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/debounce.js#L1)
 - [节流中的开始执行参数和结束执行参数](https://github.com/blingbling-110/front-end-practice/blob/7c0bdfacd088975866f2880c3596ecebe667662f/JS/%E6%B6%88%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/throttle.js#L1)
 
-## <span id="head8"> Promise</span>
+## <span id="head8"> `Promise`</span>
 
 - [`Promise/A+`规范](https://github.com/promises-aplus/promises-spec)
 - [`Promise/A+`测试](https://github.com/promises-aplus/promises-tests)
 - [自定义`Promise`](https://github.com/blingbling-110/front-end-practice/blob/baf562fe84d501e41b643812671274440ba7dde9/JS/Promise/index.js#L6)
 - [实现`Promise`静态方法](https://github.com/blingbling-110/front-end-practice/blob/a46173fa390dcbebbd8cb3646cfdcddcb219b940/JS/Promise/index.js#L195)
 
-## <span id="head9"> Generator</span>
+## <span id="head9"> `Generator`</span>
 
 - [自定义`Generator`的简单实现](https://github.com/blingbling-110/front-end-practice/blob/a46173fa390dcbebbd8cb3646cfdcddcb219b940/JS/Generator/index.js#L37)
+
+## <span id="head10"> 数组</span>
+
+- [`map()`](https://github.com/blingbling-110/front-end-practice/blob/51e7c29d4d38cb43a0c9fddfda63e79c05d28f61/JS/%E6%95%B0%E7%BB%84/index.js#L1)
+- [`flat()`及自定义`flat`的两种实现](https://github.com/blingbling-110/front-end-practice/blob/51e7c29d4d38cb43a0c9fddfda63e79c05d28f61/JS/%E6%95%B0%E7%BB%84/index.js#L21)
+- [`flatMap()`](https://github.com/blingbling-110/front-end-practice/blob/51e7c29d4d38cb43a0c9fddfda63e79c05d28f61/JS/%E6%95%B0%E7%BB%84/index.js#L56)
+
+## <span id="head11"> `async`和`await`</span>
+
+- [`Generator`语法糖](https://github.com/blingbling-110/front-end-practice/blob/51e7c29d4d38cb43a0c9fddfda63e79c05d28f61/JS/async%E5%92%8Cawait/index.js#L1)
+- [`await`与`Promise.resolve`](https://github.com/blingbling-110/front-end-practice/blob/51e7c29d4d38cb43a0c9fddfda63e79c05d28f61/JS/async%E5%92%8Cawait/index.js#L23)
