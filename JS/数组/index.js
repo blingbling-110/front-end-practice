@@ -21,15 +21,14 @@ parseInt(string, radix);
 /*
 var newArray = arr.flat([depth])
 */
+const arr = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]]
 console.log(`
 ------------------ flat() ------------------
-[1, 2, , 4, 5]: ${[1, 2, , 4, 5]}
-[1, 2, , 4, 5].flat(): ${[1, 2, , 4, 5].flat()}
-[1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]].flat(Infinity):
-`);
-const arr = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]]
-console.log(arr.flat(Infinity))
-// 自定义flat
+[1, 2, , 4, 5]: `, [1, 2, , 4, 5], `
+[1, 2, , 4, 5].flat(): `, [1, 2, , 4, 5].flat(), `
+[1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]].flat(Infinity):`, arr.flat(Infinity), `
+`)
+// 自定义flat（使用reduce和concat）
 Array.prototype.myFlat = function (depth = 1) {
     if (depth > 0) {
         return this.reduce((acc, val) => acc.concat(Array.isArray(val) ? val.myFlat(depth - 1) : val), [])
@@ -53,3 +52,16 @@ function* gFlat(arr, depth = 1) {
 }
 console.log(arr.myFlat())
 console.log([...gFlat(arr, 2)])
+
+/*
+var new_array = arr.flatMap(function callback(currentValue[, index[, array]]) {
+    // return element for new_array
+}[, thisArg])
+*/
+let arr1 = ["it's Sunny in", "", "California"]
+console.log(`
+------------------ flatMap() ------------------
+["it's Sunny in", "", "California"].flatMap(x => x.split(" ")): `, arr1.flatMap(x => x.split(" ")), `
+["it's Sunny in", "", "California"].map(x => x.split(" ")).flat(): `, arr1.map(x => x.split(" ")).flat(), `
+`)
+// flatMap比分别调用map和flat更高效
