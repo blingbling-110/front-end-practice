@@ -101,7 +101,7 @@ class MyPromise {
                 }))
                 break;
             case REJECTED:
-                newPromise = new MyPromise((resolve, reject) => setTimeout(() => {
+                newPromise = new MyPromise((_, reject) => setTimeout(() => {
                     try {
                         if (typeof onRejected !== 'function') {
                             reject(this.result)
@@ -186,6 +186,109 @@ class MyPromise {
         })
         return res
     }
+
+    // 语法糖
+    catch = onRejected => this.then(null, onRejected)
+
+    finally = onFinally => this.then(onFinally, onFinally)
+
+    // 静态方法
+    static resolve = value => {
+        if (value instanceof MyPromise) {
+            return value
+        } else {
+            return new MyPromise(resolve => resolve(value))
+        }
+    }
+
+    static reject = reason => new MyPromise((_, reject) => reject(reason))
+
+    static all = promiseList => new MyPromise((resolve, reject) => {
+        // 判断入参是否可迭代
+        if (promiseList === undefined ||
+            promiseList === null ||
+            typeof promiseList[Symbol.iterator] !== 'function') {
+            throw new TypeError(`${promiseList} is not iterable`)
+        }
+        const len = promiseList.length
+        if (len === 0) {
+            // 若入参为空的可迭代对象则返回空数组
+            resolve([])
+        }
+        const res = []
+        let count = 0;
+        // 给列表中每个promise排期，注意需要用Promise.resolve包裹
+        [].forEach.call(promiseList, (promise, index) => MyPromise.resolve(promise).then(value => {
+            res[index] = value
+            if (++count === len) {
+                // 等到所有promise实例解决之后才解决
+                resolve(res)
+            }
+        }, reject)) // 只要有一个promise实例拒绝则立即拒绝
+    })
+
+    static race = promiseList => new MyPromise((resolve, reject) => {
+        if (promiseList === undefined ||
+            promiseList === null ||
+            typeof promiseList[Symbol.iterator] !== 'function') {
+            throw new TypeError(`${promiseList} is not iterable`)
+        }
+        if (promiseList.length === 0) {
+            return
+        }
+        // 只要有promise实例落定就落定
+        [].forEach.call(promiseList, promise => MyPromise.resolve(promise).then(resolve, reject))
+    })
+
+    static allSettled = promiseList => new MyPromise(resolve => {
+        if (promiseList === undefined ||
+            promiseList === null ||
+            typeof promiseList[Symbol.iterator] !== 'function') {
+            throw new TypeError(`${promiseList} is not iterable`)
+        }
+        const len = promiseList.length
+        if (len === 0) {
+            resolve([])
+        }
+        const res = []
+        let count = 0;
+        [].forEach.call(promiseList, (promise, index) => MyPromise.resolve(promise).then(value => {
+            res[index] = { status: 'fulfilled', value }
+            if (++count === len) {
+                resolve(res)
+            }
+        }, reason => {
+            // 拒绝也纳入最终的结果
+            res[index] = { status: 'rejected', reason }
+            if (++count === len) {
+                // 始终等到所有promise实例落定之后解决
+                resolve(res)
+            }
+        }))
+    })
+
+    static any = promiseList => new MyPromise((resolve, reject) => {
+        if (promiseList === undefined ||
+            promiseList === null ||
+            typeof promiseList[Symbol.iterator] !== 'function') {
+            throw new TypeError(`${promiseList} is not iterable`)
+        }
+        const len = promiseList.length
+        if (len === 0) {
+            // 若入参为空的可迭代对象则拒绝
+            reject(new AggregateError([], 'All promises were rejected'))
+        }
+        const res = []
+        let count = 0;
+        // 只要有一个promise实例解决则立即解决
+        [].forEach.call(promiseList, (promise, index) => MyPromise.resolve(promise).then(resolve, reason => {
+            res[index] = reason
+            if (++count === len) {
+                // 等到所有promise实例拒绝之后才拒绝
+                reject(new AggregateError(res, 'All promises were rejected'))
+            }
+        }))
+    })
 }
 
 module.exports = MyPromise
