@@ -9,6 +9,9 @@
 	- [ `Generator`](#head9)
 	- [ 数组](#head10)
 	- [ `async`和`await`](#head11)
+	- [ `Proxy`](#head12)
+- [ 浏览器](#head13)
+	- [ 跨域](#head14)
 # <span id="head1"> JS</span>
 
 ## <span id="head2"> 类型</span>
@@ -19,6 +22,7 @@
 - [`==`运算的比较规则](https://github.com/blingbling-110/front-end-practice/blob/7c0bdfacd088975866f2880c3596ecebe667662f/JS/%E7%B1%BB%E5%9E%8B/types.js#L40)
 - [对象的`Class`内部插槽](https://github.com/blingbling-110/front-end-practice/blob/7c0bdfacd088975866f2880c3596ecebe667662f/JS/%E7%B1%BB%E5%9E%8B/types.js#L60)
 - [自定义`typeOf`](https://github.com/blingbling-110/front-end-practice/blob/666514717c2885804a763d39eb7af4a6da29cce7/JS/%E7%B1%BB%E5%9E%8B/types.js#L67)
+- [小数运算与`IEEE 754`标准](https://github.com/blingbling-110/front-end-practice/blob/4f31e10eddc8935b3aeb18b1b3ca62e2b02ec593/JS/%E7%B1%BB%E5%9E%8B/types.js#L86)
 
 ## <span id="head3"> 原型链</span>
 
@@ -79,3 +83,19 @@
 
 - [`Generator`语法糖](https://github.com/blingbling-110/front-end-practice/blob/51e7c29d4d38cb43a0c9fddfda63e79c05d28f61/JS/async%E5%92%8Cawait/index.js#L1)
 - [`await`与`Promise.resolve`](https://github.com/blingbling-110/front-end-practice/blob/51e7c29d4d38cb43a0c9fddfda63e79c05d28f61/JS/async%E5%92%8Cawait/index.js#L23)
+
+## <span id="head12"> `Proxy`</span>
+
+- [利用代理实现监听](https://github.com/blingbling-110/front-end-practice/blob/4f31e10eddc8935b3aeb18b1b3ca62e2b02ec593/JS/Proxy/index.js#L1)
+- [`receiver`的含义](https://github.com/blingbling-110/front-end-practice/blob/4f31e10eddc8935b3aeb18b1b3ca62e2b02ec593/JS/Proxy/index.js#L26)
+
+# <span id="head13"> 浏览器</span>
+
+## <span id="head14"> 跨域</span>
+
+- `jsonp`（仅限`GET`）: [前端](https://github.com/blingbling-110/front-end-practice/blob/78c3db285a9e81b08de656a3453209142cbb8939/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/jsonp/source.html#L9)、[后端](https://github.com/blingbling-110/front-end-practice/blob/78c3db285a9e81b08de656a3453209142cbb8939/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/jsonp/backEnd.js#L1)
+- [`document.domain`（仅限主域相同，子域不同）](https://github.com/blingbling-110/front-end-practice/blob/78c3db285a9e81b08de656a3453209142cbb8939/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/domain/source.html#L9)
+- [`location.hash`](https://github.com/blingbling-110/front-end-practice/blob/78c3db285a9e81b08de656a3453209142cbb8939/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/hash/source.html#L9)
+- [`window.name`](https://github.com/blingbling-110/front-end-practice/blob/78c3db285a9e81b08de656a3453209142cbb8939/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/name/source.html#L9)
+- [`postMessage`](https://github.com/blingbling-110/front-end-practice/blob/78c3db285a9e81b08de656a3453209142cbb8939/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/postMessage/source.html#L9)
+- `CORS`: [前端](https://github.com/blingbling-110/front-end-practice/blob/78c3db285a9e81b08de656a3453209142cbb8939/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/CORS/source.html#L9)、[后端](https://github.com/blingbling-110/front-end-practice/blob/78c3db285a9e81b08de656a3453209142cbb8939/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/CORS/backEnd.js#L1)
