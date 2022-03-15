@@ -1,10 +1,10 @@
-var qs = require('querystring');
-var http = require('http');
-var server = http.createServer();
+const qs = require('querystring');
+const http = require('http');
+const server = http.createServer();
 
-server.on('request', function(req, res) {
-    var params = qs.parse(req.url.split('?')[1]);
-    var fn = params.callback;
+server.on('request', function (req, res) {
+    const params = qs.parse(req.url.split('?')[1]);
+    const fn = params.callback;
 
     // jsonp返回设置
     res.writeHead(200, { 'Content-Type': 'text/javascript' });

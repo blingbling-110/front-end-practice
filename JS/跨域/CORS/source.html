@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>source</title>
+    <!-- http://source.domain.com:5500/JS/%E8%B7%A8%E5%9F%9F/CORS/source.html -->
+</head>
+
+<body>
+    <script>
+        fetch('http://target.domain.com:8080/login', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'user=admin'
+        })
+        .then(res => res.text())
+        .then(data => alert(data))
+    </script>
+</body>
+
+</html>

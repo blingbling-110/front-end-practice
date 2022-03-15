@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>target</title>
+    <!-- http://target.domain.com:5500/JS/%E8%B7%A8%E5%9F%9F/postMessage/target.html -->
+</head>
+
+<body>
+    <script>
+        // 接收source.domain.com的数据
+        window.addEventListener('message', function (e) {
+            alert('data from source.domain.com ---> ' + e.data);
+
+            const data = JSON.parse(e.data);
+            if (data) {
+                data.age = 27;
+
+                // 处理后再发回source.domain.com
+                window.parent.postMessage(JSON.stringify(data), 'http://source.domain.com:5500');
+            }
+        }, false);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>source</title>
+    <!-- http://source.domain.com:5500/JS/%E8%B7%A8%E5%9F%9F/postMessage/source.html -->
+</head>
+
+<body>
+    <iframe id="iframe" src="http://target.domain.com:5500/JS/%E8%B7%A8%E5%9F%9F/postMessage/target.html"
+        style="display:none;"></iframe>
+    <script>
+        const iframe = document.getElementById('iframe');
+        iframe.onload = function () {
+            const data = {
+                name: 'blingbling'
+            };
+            // 向target.domain.com传送跨域数据
+            iframe.contentWindow.postMessage(JSON.stringify(data), 'http://target.domain.com:5500');
+        };
+
+        // 接受target.domain.com返回数据
+        window.addEventListener('message', function (e) {
+            alert('data from target.domain.com ---> ' + e.data);
+        }, false);
+    </script>
+</body>
+
+</html>

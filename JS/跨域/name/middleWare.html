@@ -10,13 +10,7 @@
 </head>
 
 <body>
-    <script>
-        // 监听target.html传来的hash值
-        window.onhashchange = function () {
-            // 再通过操作同域source.html的js回调，将结果传回
-            window.parent.parent.onCallback('hello: ' + location.hash.replace('#user=', ''));
-        };
-    </script>
+
 </body>
 
 </html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>source</title>
+    <!-- http://source.domain.com:5500/JS/%E8%B7%A8%E5%9F%9F/name/source.html -->
+</head>
+
+<body>
+    <script>
+        // window.name值在不同的页面（甚至不同域名）加载后依旧存在，并且可以支持非常长的 name 值（2MB）
+
+        const proxy = function (url, callback) {
+            let state = 0;
+            const iframe = document.createElement('iframe');
+
+            // 加载跨域页面
+            iframe.src = url;
+
+            // onload事件会触发2次，第1次加载跨域页，并留存数据于window.name
+            iframe.onload = function () {
+                if (state === 0) {
+                    // 第1次onload(跨域页)成功后，切换到同域middleWare页面
+                    iframe.contentWindow.location = 'http://source.domain.com:5500/JS/%E8%B7%A8%E5%9F%9F/name/middleWare.html';
+                    state = 1;
+                } else if (state === 1) {
+                    // 第2次onload(同域middleWare页)成功后，读取同域window.name中数据
+                    callback(iframe.contentWindow.name);
+                    destoryFrame();
+                }
+            };
+
+            document.body.appendChild(iframe);
+
+            // 获取数据以后销毁这个iframe，释放内存；这也保证了安全（不被其他域frame js访问）
+            function destoryFrame() {
+                iframe.contentWindow.document.write('');
+                iframe.contentWindow.close();
+                document.body.removeChild(iframe);
+            }
+        };
+
+        // 请求跨域b页面数据
+        proxy('http://target.domain.com:5500/JS/%E8%B7%A8%E5%9F%9F/name/target.html', function (data) {
+            alert(data);
+        });
+    </script>
+</body>
+
+</html>
