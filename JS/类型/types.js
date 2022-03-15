@@ -11,7 +11,7 @@ typeof Symbol(): ${typeof Symbol()}
 typeof {}: ${typeof {}}
 typeof console.log: ${typeof console.log}
 
-判断NaN的方法
+------------------ 判断NaN的方法 ------------------
 typeof NaN: ${typeof NaN}
 NaN === NaN: ${NaN === NaN}
 Object.is(NaN, NaN): ${Object.is(NaN, NaN)}
@@ -29,7 +29,7 @@ const obj = {
 
 console.log(`
 ------------------ 类型转换规则 ------------------
-1 + obj = ${1+obj}
+1 + obj = ${1 + obj}
 '1' + obj = ${'1' + obj}
 1 + '1' = ${1 + '1'}
 2 * '2' = ${2 * '2'}
@@ -81,3 +81,37 @@ typeOf(console.log): ${typeOf(console.log)}
 typeOf(NaN): ${typeOf(NaN)}
 typeOf(Infinity): ${typeOf(Infinity)}
 `)
+
+console.log(`
+------------------ 0.1+0.2 ------------------
+0.1 + 0.2 = ${0.1 + 0.2}
+0.1.toString(2) = ${0.1.toString(2)}
+0.2.toString(2) = ${0.2.toString(2)}
+bin2Dec('0.0100110011001100110011001100110011001100110011001100111') = ${
+    binStrToDecNum('0.0100110011001100110011001100110011001100110011001100111')
+}
+parseFloat((0.1 + 0.2).toFixed(10)) = ${parseFloat((0.1 + 0.2).toFixed(10))}
+`)
+// 二进制字符串转十进制数字
+function binStrToDecNum(num) {
+    const numArr = num.split('.')
+    const [intArr, fraArr] = [numArr[0].split(''), numArr[1] ? numArr[1].split('') : []]
+    const [intLen, fraLen] = [intArr.length, fraArr.length]
+    return intArr.reduce((acc, val, i) => acc + Number.parseInt(val) * 2 ** (intLen - 1 - i), 0) +
+        fraArr.reduce((acc, val, i) => acc + Number.parseInt(val) * 2 ** (-1 - i), 0)
+}
+
+/*
+http://people.eecs.berkeley.edu/~wkahan/ieee754status/IEEE754.PDF
+JS中数字均以IEEE 754双精度表示，64位中符号位1位、指数位11位、小数位52位
+注意：为了避免补码，指数位将会偏移1023，并且舍掉全0和全1
+· 当指数位和小数位均全0时，表示±0（取决于符号位）
+· 当指数位全0而小数位非0时，表示非规约形式的浮点数
+· 当指数位全1小数位全0时，表示±Infinity（取决于符号位）
+· 当指数位全1而小数位非0时，表示NaN
+还要注意：规约形式的浮点数会有一个隐含的整数位1，非规约没有；非规约的指数偏移值为1022
+*/
+// 基于IEEE 754规范验证最大数值和最小正值
+console.log('Number.MAX_VALUE', Number.MAX_VALUE === 2 ** (0b11111111110 - 1023) * (2 - 2 ** -52))
+console.log('Number.MIN_VALUE', Number.MIN_VALUE === 2 ** (0 - 1022) * (2 ** -52))
+// 基于IEEE 754规范很容易得出最大最小安全整数为±(2 ** 53 - 1)，即53个1（小数位全1加上隐含整数位），再大就会精度丢失

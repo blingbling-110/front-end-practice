@@ -43,5 +43,5 @@ const admin = {
     _name: 'Administrator'
 }
 console.log(admin.name)
-console.log('receiverRec: ',receiverRec)
+console.log('receiverRec: ', receiverRec)
 // 可见：若不传receiver则getter中的this指向调用getter的对象，即user本身
