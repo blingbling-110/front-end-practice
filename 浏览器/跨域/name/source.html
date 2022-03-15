@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>source</title>
-    <!-- http://source.domain.com:5500/JS/%E8%B7%A8%E5%9F%9F/name/source.html -->
+    <!-- http://source.domain.com:5500/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/name/source.html -->
 </head>
 
 <body>
@@ -24,7 +24,7 @@
             iframe.onload = function () {
                 if (state === 0) {
                     // 第1次onload(跨域页)成功后，切换到同域middleWare页面
-                    iframe.contentWindow.location = 'http://source.domain.com:5500/JS/%E8%B7%A8%E5%9F%9F/name/middleWare.html';
+                    iframe.contentWindow.location = 'http://source.domain.com:5500/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/name/middleWare.html';
                     state = 1;
                 } else if (state === 1) {
                     // 第2次onload(同域middleWare页)成功后，读取同域window.name中数据
@@ -44,7 +44,7 @@
         };
 
         // 请求跨域b页面数据
-        proxy('http://target.domain.com:5500/JS/%E8%B7%A8%E5%9F%9F/name/target.html', function (data) {
+        proxy('http://target.domain.com:5500/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/name/target.html', function (data) {
             alert(data);
         });
     </script>
