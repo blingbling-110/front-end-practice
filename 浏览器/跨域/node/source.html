@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>source</title>
+    <!-- http://source.domain.com:5500/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/node/source.html -->
+</head>
+
+<body>
+    <script>
+        const xhr = new XMLHttpRequest();
+
+        // 前端开关：浏览器是否读写cookie
+        xhr.withCredentials = true;
+
+        // 访问nginx中的代理服务器
+        xhr.open('get', 'http://source.domain.com:8081/?user=admin', true);
+        xhr.send();
+    </script>
+</body>
+
+</html>

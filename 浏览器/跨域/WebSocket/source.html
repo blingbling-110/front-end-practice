@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>source</title>
+    <!-- http://source.domain.com:5500/%E6%B5%8F%E8%A7%88%E5%99%A8/%E8%B7%A8%E5%9F%9F/WebSocket/source.html -->
+</head>
+
+<body>
+    <div>user input：<input type="text"></div>
+    <script src=".\node_modules\socket.io\client-dist\socket.io.min.js"></script>
+    <script>
+        const socket = io('http://target.domain.com:8080');
+
+        // 连接成功处理
+        socket.on('connect', function () {
+            // 监听服务端消息
+            socket.on('message', function (msg) {
+                console.log('data from server: ---> ' + msg);
+            });
+
+            // 监听服务端关闭
+            socket.on('disconnect', function () {
+                console.log('Server socket has closed.');
+            });
+        });
+
+        document.getElementsByTagName('input')[0].onblur = function () {
+            socket.send(this.value);
+        };
+    </script>
+</body>
+
+</html>
