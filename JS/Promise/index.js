@@ -46,19 +46,21 @@ class MyPromise {
 
     // 解决函数
     resolve = value => {
-        if (value instanceof MyPromise) {
-            // 若嵌套Promise则递归解决
-            return value.then(this.resolve, this.reject)
-        }
         if (this.state !== PENDING) {
             return
         }
-        // 异步执行，否则回调可能还没入列Promise就已经落定了
-        nextMicrotask(() => {
-            this.state = RESOLVED
-            this.result = value
-            this.resolveQueue.forEach(cb => nextMicrotask(cb))
-        })
+        try {
+            this.handleRes(value, this, this._resolve)
+        } catch (reason) {
+            this.reject(reason)
+        }
+    }
+
+    // 真正解决函数
+    _resolve = value => {
+        this.state = RESOLVED
+        this.result = value
+        nextMicrotask(() => this.resolveQueue.forEach(cb => cb()))
     }
 
     // 拒绝函数
@@ -66,11 +68,9 @@ class MyPromise {
         if (this.state !== PENDING) {
             return
         }
-        nextMicrotask(() => {
-            this.state = REJECTED
-            this.result = reason
-            this.rejectQueue.forEach(cb => nextMicrotask(cb))
-        })
+        this.state = REJECTED
+        this.result = reason
+        nextMicrotask(() => this.rejectQueue.forEach(cb => cb()))
     }
 
     // 排期函数
@@ -82,17 +82,17 @@ class MyPromise {
         let newPromise
         switch (this.state) {
             case PENDING:
-                newPromise = new MyPromise((_, reject) => {
+                newPromise = new MyPromise((resolve, reject) => {
                     this.resolveQueue.push(() => {
                         try {
-                            this.handleRes(onResolved(this.result), newPromise)
+                            this.handleRes(onResolved(this.result), newPromise, resolve)
                         } catch (reason) {
                             reject(reason)
                         }
                     })
                     this.rejectQueue.push(() => {
                         try {
-                            this.handleRes(onRejected(this.result), newPromise)
+                            this.handleRes(onRejected(this.result), newPromise, resolve)
                         } catch (reason) {
                             reject(reason)
                         }
@@ -103,16 +103,16 @@ class MyPromise {
                 // 异步执行排期回调
                 newPromise = new MyPromise((resolve, reject) => nextMicrotask(() => {
                     try {
-                        this.handleRes(onResolved(this.result), newPromise)
+                        this.handleRes(onResolved(this.result), newPromise, resolve)
                     } catch (reason) {
                         reject(reason)
                     }
                 }))
                 break;
             case REJECTED:
-                newPromise = new MyPromise((_, reject) => nextMicrotask(() => {
+                newPromise = new MyPromise((resolve, reject) => nextMicrotask(() => {
                     try {
-                        this.handleRes(onRejected(this.result), newPromise)
+                        this.handleRes(onRejected(this.result), newPromise, resolve)
                     } catch (reason) {
                         reject(reason)
                     }
@@ -125,7 +125,7 @@ class MyPromise {
     }
 
     // 处理排期回调结果
-    handleRes(newResult, newPromise) {
+    handleRes(newResult, newPromise, resolve) {
         if (newResult === newPromise) {
             // 若回调执行结果和then()需要返回的Promise实例相同，则出现循环引用
             return newPromise.reject(new TypeError('There is a reference circle'))
@@ -134,10 +134,10 @@ class MyPromise {
             // 回调执行结果可能为Promise实例
             if (newResult.state === PENDING) {
                 // 若状态为待定则继续排期，直到某个Promise实例落定
-                newResult.then(value => this.handleRes(value, newPromise), newPromise.reject)
+                newResult.then(value => this.handleRes(value, newPromise, resolve), newPromise.reject)
             } else {
                 // 若状态为落定则将newPromise落定
-                newResult.then(newPromise.resolve, newPromise.reject)
+                newResult.then(resolve, newPromise.reject)
             }
             return
         }
@@ -154,19 +154,19 @@ class MyPromise {
                             return
                         } else {
                             called = true
-                            this.handleRes(value, newPromise)
+                            nextMicrotask(() => this.handleRes(value, newPromise, resolve))
                         }
                     }, reason => {
                         if (called) {
                             return
                         } else {
                             called = true
-                            newPromise.reject(reason)
+                            nextMicrotask(() => newPromise.reject(reason))
                         }
                     })
                 } else {
                     // 未实现thenable接口，直接解决
-                    newPromise.resolve(newResult)
+                    resolve(newResult)
                 }
             } catch (reason) {
                 if (called) {
@@ -178,7 +178,7 @@ class MyPromise {
             }
         } else {
             // 若排期结果为基本类型，则直接解决
-            newPromise.resolve(newResult)
+            resolve(newResult)
         }
     }
 
@@ -198,7 +198,7 @@ class MyPromise {
                 if (typeof then === 'function') {
                     // 如果参数是一个thenable对象，Promise.resolve()方法会将这个对象转为 Promise 对象，
                     // 然后就立即执行thenable对象的then()方法。
-                    return new MyPromise(then.bind(value))
+                    return new MyPromise((resolve, reject) => nextMicrotask(() => then.call(value, resolve, reject)))
                 }
             } catch (e) {
                 return new MyPromise((_, reject) => reject(e))
@@ -206,10 +206,7 @@ class MyPromise {
         } else {
             // 如果参数不是具有then()方法的对象，或根本就不是对象，
             // 则Promise.resolve()方法返回一个新的 Promise 对象，状态为resolved。
-            const newPromise = new MyPromise(() => { })
-            newPromise.state = RESOLVED
-            newPromise.result = value
-            return newPromise
+            return new MyPromise(resolve => resolve(value))
         }
     }
 
