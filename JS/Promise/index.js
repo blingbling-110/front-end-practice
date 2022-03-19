@@ -3,6 +3,25 @@ const PENDING = 'pending'
 const RESOLVED = 'resolved'
 const REJECTED = 'rejected'
 
+// 推入微任务队列
+function nextMicrotask(cb) {
+    if (typeof queueMicrotask === 'function') {
+        // 优先使用queueMicrotask接口，在window和worker中都有提供
+        queueMicrotask(cb)
+    } else if (typeof MutationObserver === 'function') {
+        // 使用MutationObserver模拟
+        const node = document.createTextNode('0')
+        new MutationObserver(cb).observe(node, { characterData: true })
+        node.data = '1'
+    } else if (process && typeof process.nextTick === 'function') {
+        // Node中可以通过nextTick模拟
+        process.nextTick(cb)
+    } else {
+        // 以上都不行则只能通过宏任务模拟
+        setTimeout(() => cb())
+    }
+};
+
 // 自定义Promise
 class MyPromise {
     // 实例的状态
@@ -35,10 +54,10 @@ class MyPromise {
             return
         }
         // 异步执行，否则回调可能还没入列Promise就已经落定了
-        setTimeout(() => {
+        nextMicrotask(() => {
             this.state = RESOLVED
             this.result = value
-            this.resolveQueue.forEach(cb => cb())
+            this.resolveQueue.forEach(cb => nextMicrotask(cb))
         })
     }
 
@@ -47,39 +66,33 @@ class MyPromise {
         if (this.state !== PENDING) {
             return
         }
-        setTimeout(() => {
+        nextMicrotask(() => {
             this.state = REJECTED
             this.result = reason
-            this.rejectQueue.forEach(cb => cb())
+            this.rejectQueue.forEach(cb => nextMicrotask(cb))
         })
     }
 
     // 排期函数
     then(onResolved, onRejected) {
+        // 解决回调和拒绝回调均为可选参数，若不是函数则透传
+        onResolved = typeof onResolved === 'function' ? onResolved : value => value
+        onRejected = typeof onRejected === 'function' ? onRejected : reason => { throw reason }
         // 必须返回新的Promise实例
         let newPromise
         switch (this.state) {
             case PENDING:
-                newPromise = new MyPromise((resolve, reject) => {
+                newPromise = new MyPromise((_, reject) => {
                     this.resolveQueue.push(() => {
                         try {
-                            // 解决回调和拒绝回调均为可选参数，若不是函数则透传
-                            if (typeof onResolved !== 'function') {
-                                resolve(this.result)
-                            } else {
-                                this.handleRes(onResolved(this.result), newPromise)
-                            }
+                            this.handleRes(onResolved(this.result), newPromise)
                         } catch (reason) {
                             reject(reason)
                         }
                     })
                     this.rejectQueue.push(() => {
                         try {
-                            if (typeof onRejected !== 'function') {
-                                reject(this.result)
-                            } else {
-                                this.handleRes(onRejected(this.result), newPromise)
-                            }
+                            this.handleRes(onRejected(this.result), newPromise)
                         } catch (reason) {
                             reject(reason)
                         }
@@ -88,26 +101,18 @@ class MyPromise {
                 break;
             case RESOLVED:
                 // 异步执行排期回调
-                newPromise = new MyPromise((resolve, reject) => setTimeout(() => {
+                newPromise = new MyPromise((resolve, reject) => nextMicrotask(() => {
                     try {
-                        if (typeof onResolved !== 'function') {
-                            resolve(this.result)
-                        } else {
-                            this.handleRes(onResolved(this.result), newPromise)
-                        }
+                        this.handleRes(onResolved(this.result), newPromise)
                     } catch (reason) {
                         reject(reason)
                     }
                 }))
                 break;
             case REJECTED:
-                newPromise = new MyPromise((_, reject) => setTimeout(() => {
+                newPromise = new MyPromise((_, reject) => nextMicrotask(() => {
                     try {
-                        if (typeof onRejected !== 'function') {
-                            reject(this.result)
-                        } else {
-                            this.handleRes(onRejected(this.result), newPromise)
-                        }
+                        this.handleRes(onRejected(this.result), newPromise)
                     } catch (reason) {
                         reject(reason)
                     }
@@ -141,7 +146,7 @@ class MyPromise {
             // 确保在result不为Promise实例但实现thenable接口时只执行一次resolve或reject（模拟Promise状态机）
             let called = false
             try {
-                let then = newResult.then
+                const then = newResult.then
                 if (typeof then === 'function') {
                     // 调用thenable接口
                     then.call(newResult, value => {
@@ -177,16 +182,6 @@ class MyPromise {
         }
     }
 
-    // promises-aplus-tests
-    static deferred() {
-        const res = {}
-        res.promise = new MyPromise((resolve, reject) => {
-            res.resolve = resolve
-            res.reject = reject
-        })
-        return res
-    }
-
     // 语法糖
     catch = onRejected => this.then(null, onRejected)
 
@@ -195,9 +190,26 @@ class MyPromise {
     // 静态方法
     static resolve = value => {
         if (value instanceof MyPromise) {
+            // 如果参数是 Promise 实例，那么Promise.resolve将不做任何修改、原封不动地返回这个实例。
             return value
+        } else if (value !== null && (typeof value === 'object' || typeof value === 'function')) {
+            try {
+                const then = value.then
+                if (typeof then === 'function') {
+                    // 如果参数是一个thenable对象，Promise.resolve()方法会将这个对象转为 Promise 对象，
+                    // 然后就立即执行thenable对象的then()方法。
+                    return new MyPromise(then.bind(value))
+                }
+            } catch (e) {
+                return new MyPromise((_, reject) => reject(e))
+            }
         } else {
-            return new MyPromise(resolve => resolve(value))
+            // 如果参数不是具有then()方法的对象，或根本就不是对象，
+            // 则Promise.resolve()方法返回一个新的 Promise 对象，状态为resolved。
+            const newPromise = new MyPromise(() => { })
+            newPromise.state = RESOLVED
+            newPromise.result = value
+            return newPromise
         }
     }
 
@@ -289,6 +301,17 @@ class MyPromise {
             }
         }))
     })
+
+    // promises-aplus-tests
+    static deferred() {
+        const res = {}
+        res.promise = new MyPromise((resolve, reject) => {
+            res.resolve = resolve
+            res.reject = reject
+        })
+        return res
+    }
 }
 
+// promises-aplus-tests
 module.exports = MyPromise
