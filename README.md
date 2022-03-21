@@ -13,6 +13,8 @@
 - [ 浏览器](#head13)
 	- [ 跨域](#head14)
 	- [ 事件循环](#head15)
+	- [Service Worker](#head16)
+	- [ 渲染机制](#head17)
 # <span id="head1"> JS</span>
 
 ## <span id="head2"> 类型</span>
@@ -107,6 +109,15 @@
 ## <span id="head15"> 事件循环</span>
 
 - [宏任务与微任务](https://github.com/blingbling-110/front-end-practice/blob/b2e3ade7d8aba9567fe872104bdb95a90efc497b/%E6%B5%8F%E8%A7%88%E5%99%A8/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/index.js#L2)
-- [Node中的事件循环](https://github.com/blingbling-110/front-end-practice/blob/b2e3ade7d8aba9567fe872104bdb95a90efc497b/%E6%B5%8F%E8%A7%88%E5%99%A8/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/inNode.js#L2)
-- [Node中定时器的不确定性](https://github.com/blingbling-110/front-end-practice/blob/b2e3ade7d8aba9567fe872104bdb95a90efc497b/%E6%B5%8F%E8%A7%88%E5%99%A8/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/random.js#L1)
+- [`Node`中的事件循环](https://github.com/blingbling-110/front-end-practice/blob/b2e3ade7d8aba9567fe872104bdb95a90efc497b/%E6%B5%8F%E8%A7%88%E5%99%A8/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/inNode.js#L2)
+- [`Node`中定时器的不确定性](https://github.com/blingbling-110/front-end-practice/blob/b2e3ade7d8aba9567fe872104bdb95a90efc497b/%E6%B5%8F%E8%A7%88%E5%99%A8/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/random.js#L1)
 
+## <span id="head16">Service Worker</span>
+
+- [文件缓存](https://github.com/blingbling-110/front-end-practice/blob/443861d0ac54e3b60339d20c332fae080d4bf579/%E6%B5%8F%E8%A7%88%E5%99%A8/ServiceWorker/sw.js#L1)
+- [请求拦截](https://github.com/blingbling-110/front-end-practice/blob/443861d0ac54e3b60339d20c332fae080d4bf579/%E6%B5%8F%E8%A7%88%E5%99%A8/ServiceWorker/sw.js#L9)
+
+## <span id="head17"> 渲染机制</span>
+
+- [`CSS`的阻塞机制](https://github.com/blingbling-110/front-end-practice/blob/443861d0ac54e3b60339d20c332fae080d4bf579/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6/index.html#L18)
+- [`load`与`DOMContentLoaded`](https://github.com/blingbling-110/front-end-practice/blob/443861d0ac54e3b60339d20c332fae080d4bf579/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6/load.html#L8)
