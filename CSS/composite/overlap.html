@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>覆盖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            width: 200px;
+            height: 200px;
+        }
+
+        .bottom {
+            background: #f5cec7;
+            animation: anim-translate 3s ease-in-out alternate infinite both;
+        }
+
+        @keyframes anim-translate {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(50px);
+            }
+        }
+
+        .top {
+            background: #e79796;
+            transform: translateY(-50px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 元素覆盖在其他合成层元素上，则该元素被隐式提升为合成层
+    上层div，本不具备提升为合成层的因素，但由于其覆盖在了下层div上，如果上层div不隐式提升为合成层，
+    它就会和和父元素共用一个合成层，此时渲染顺序就会出错。为了保证渲染顺序，因此上层被隐式提升为合成层。 -->
+    <div class='parents'>
+        <div class="bottom">下层-有动画</div>
+        <div class="top">上层-隐式提升为合成层</div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合成层</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            width: 200px;
+            height: 100px;
+        }
+
+        .default {
+            background: #ffb284;
+        }
+
+        .composite-translateZ {
+            transform: translateZ(0);
+            background: #f5cec7;
+        }
+
+        .composite-tansform-active {
+            background: #e79796;
+            transform: translate(0, 0);
+            transition: 3s;
+        }
+
+        .composite-tansform-active:hover {
+            transform: translate(100px, 100px);
+        }
+
+        .composite-will-change {
+            background: #ffc988;
+            will-change: transform;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 产生合成层的具体条件可参考文章，这里列出几个常见的场景：
+        有 3D transform
+        对 opacity、fliter、transform 应用了 animation 或者 transition（需要是 active 的 animation 或者 transition，当 animation 或者 transition 效果未开始或结束后，提升合成层也会失效）
+        will-change 设置为 opacity、transform、top、left、bottom、right（其中 top、left 等需要设置明确的定位属性，如 relative 等
+    
+    提升为合成层的好处：
+    合成层的位图，会采用硬件加速，也就是会交由 GPU 合成，比 CPU 处理要快
+    当需要 repaint 时，只需要 repaint 本身，不会影响到其他的层
+    对于已提升为合成层中的 transform 和 opacity 效果，都只是几何变换，透明度变换等，不会触发 layout 和 paint，直接由GPU完成即可-->
+    <div class='default'>默认层</div>
+    <div class='composite-translateZ'>合成层-translateZ</div>
+    <div class='composite-tansform-active'>合成层——active transform（hover一下我）</div>
+    <div class='composite-will-change'>合成层——will-change</div>
+</body>
+
+</html>

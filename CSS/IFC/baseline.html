@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基线</title>
+    <style>
+        .box {
+            width: 150px;
+            height: 150px;
+            display: inline-block;
+            word-wrap: break-word;
+            background: green;
+            /* 统一垂直对齐方式（默认是baseline） */
+            vertical-align: middle;
+        }
+        .box:nth-child(4) {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- inline元素的baseline，为内容盒content-box里面文本框的基线。
+        inline-block的外边缘就是margin-box的外边缘，
+        如果inline-block内部有内容，则baseline为内容最下方的baseline。
+        如果Inline-block内部无内容，则baseline与margin-box的下边缘重合。
+        如果overflow属性不为visible（默认）,则baseline与margin-box的下边缘重合。 -->
+        <div class='box'>ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</div>
+        <div class='box'>fffffffffffffffffffffffffffffffffff</div>
+        <div class='box'></div>
+        <div class='box'>ffff</div>
+</body>
+
+</html>
