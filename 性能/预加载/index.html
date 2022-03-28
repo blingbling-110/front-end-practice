@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预加载</title>
+    <!-- DNS解析和TCP连接延迟 chrome://histograms/Net.DNS_Resolution_And_TCP_Connection_Latency2 -->
+
+    <!-- 预连接：包括DNS解析和建立TCP连接以及执行TLS握手(https) -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <!-- DNS预获取：仅执行DNS解析 -->
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+
+    <!-- 让https的a标签也默认开启DNS预解析 -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+    <!-- 预加载 兼容性一般：https://caniuse.com/?search=preload -->
+    <link rel="preload"
+        href="https://cdn.jsdelivr.net/gh/mdn/html-examples/link-rel-preload/fonts/fonts/cicle_fina-webfont.woff2"
+        as="font" type="font/woff2" crossorigin>
+
+    <!-- 预渲染 兼容性不好：https://caniuse.com/?search=prerender -->
+    <link rel="prerender" href="https://google.com/">
+</head>
+
+<body>
+
+</body>
+
+</html>
