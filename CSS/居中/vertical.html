@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>垂直居中</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        div {
+            width: 148px;
+        }
+
+        .wrapper {
+            height: calc(50vh - 2px);
+            background-color: lightpink;
+            border: 1px solid black;
+            float: left;
+        }
+
+        .has-height {
+            height: 200px;
+            background-color: yellow;
+        }
+
+        .no-height {
+            height: 20vh;
+            background-color: greenyellow;
+        }
+
+        #wrapper-0 {
+            position: relative;
+        }
+
+        #child-0 {
+            position: absolute;
+            top: 50%;
+            margin-top: -100px;
+        }
+
+        .helper {
+            height: 50%;
+        }
+
+        #child-1 {
+            margin-top: -100px;
+        }
+
+        #wrapper-2 {
+            position: relative;
+        }
+
+        #child-2 {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin: auto 0;
+        }
+
+        #wrapper-3 {
+            position: relative;
+        }
+
+        #child-3 {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #wrapper-4 {
+            display: flex;
+            align-items: center;
+        }
+
+        #wrapper-5 {
+            display: grid;
+            align-items: center;
+        }
+
+        #child-6 {
+            line-height: calc(50vh - 2px);
+        }
+
+        #wrapper-7 {
+            display: table;
+        }
+
+        #child-7 {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        #wrapper-8 {
+            line-height: calc(50vh - 2px);
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper-0" class="wrapper">
+        <div id="child-0" class="has-height">确定高度的块级元素</div>
+    </div>
+    <div id="wrapper-1" class="wrapper">
+        <div class="helper"></div>
+        <div id="child-1" class="has-height">确定高度的块级元素</div>
+    </div>
+    <div id="wrapper-2" class="wrapper">
+        <div id="child-2" class="no-height">高度未知的块级元素</div>
+    </div>
+    <div id="wrapper-3" class="wrapper">
+        <div id="child-3" class="no-height">高度未知的块级元素</div>
+    </div>
+    <div id="wrapper-4" class="wrapper">
+        <div id="child-4" class="no-height">高度未知的块级元素</div>
+    </div>
+    <div id="wrapper-5" class="wrapper">
+        <div id="child-5" class="no-height">高度未知的块级元素</div>
+    </div>
+    <div id="wrapper-6" class="wrapper">
+        <div id="child-6">文本垂直居中</div>
+    </div>
+    <div id="wrapper-7" class="wrapper">
+        <div id="child-7">文本垂直居中</div>
+    </div>
+    <div id="wrapper-8" class="wrapper">
+        <img src="https://github.com/fluidicon.png" alt="github">
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水平居中</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .text {
+            background-color: lightpink;
+            text-align: center;
+        }
+
+        .has-width {
+            width: 300px;
+            background-color: yellow;
+        }
+
+        #has-width-0 {
+            margin: 0 auto;
+        }
+
+        #has-width-1 {
+            position: absolute;
+            margin-left: calc(50% - 150px);
+        }
+
+        .no-width {
+            width: 50%;
+            background-color: greenyellow;
+        }
+
+        #no-width-0 {
+            margin: 0 auto;
+        }
+
+        #wrapper-0 {
+            text-align: center;
+        }
+
+        #no-width-1 {
+            display: inline-block;
+        }
+
+        #no-width-2 {
+            position: absolute;
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #wrapper-1 {
+            display: flex;
+            justify-content: center;
+        }
+
+        #wrapper-2 {
+            display: grid;
+            justify-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="text">文本水平居中</div>
+    <div id="has-width-0" class="text has-width">确定宽度的块级元素</div>
+    <div id="has-width-1" class="text has-width">确定宽度的块级元素</div>
+    <br>
+    <div id="no-width-0" class="text no-width">宽度未知的块级元素</div>
+    <div id="wrapper-0">
+        <div id="no-width-1" class="text no-width">宽度未知的块级元素</div>
+    </div>
+    <div id="no-width-2" class="text no-width">宽度未知的块级元素</div>
+    <br>
+    <div id="wrapper-1">
+        <div id="no-width-3" class="text no-width">宽度未知的块级元素</div>
+    </div>
+    <div id="wrapper-2">
+        <div id="no-width-4" class="text no-width">宽度未知的块级元素</div>
+    </div>
+</body>
+
+</html>
