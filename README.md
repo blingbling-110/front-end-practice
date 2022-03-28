@@ -16,9 +16,9 @@
 	- [Service Worker](#head16)
 	- [ 渲染机制](#head17)
 - [ CSS](#head18)
-	- [ BFC](#head19)
-	- [ IFC](#head20)
-	- [ composite](#head21)
+	- [ `BFC`](#head19)
+	- [ `IFC`](#head20)
+	- [ `composite`](#head21)
 	- [ 居中](#head22)
 	- [ CSS图标](#head23)
 # <span id="head1"> JS</span>
@@ -130,17 +130,17 @@
 
 # <span id="head18"> CSS</span>
 
-## <span id="head19"> BFC</span>
+## <span id="head19"> `BFC`</span>
 
 - [外边距重叠](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/BFC/margin.html#L11)
 - [子元素浮动产生的父元素高度塌陷](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/BFC/clearfix.html#L11)
 - [精确的多列布局](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/BFC/multicolumn.html#L7)
 
-## <span id="head20"> IFC</span>
+## <span id="head20"> `IFC`</span>
 
 - [行内元素的垂直对齐方式](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/IFC/baseline.html#L16)
 
-## <span id="head21"> composite</span>
+## <span id="head21"> `composite`</span>
 
 - [提升为合成层的条件与好处](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/composite/index.html#L47)
 - [合成层的隐式提升](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/composite/overlap.html#L43)
