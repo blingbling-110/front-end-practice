@@ -21,6 +21,10 @@
 	- [ `composite`](#head21)
 	- [ 居中](#head22)
 	- [ CSS图标](#head23)
+- [ 性能](#head24)
+	- [ 预加载](#head25)
+	- [ 懒加载](#head26)
+	- [ `requestAnimationFrame`](#head27)
 # <span id="head1"> JS</span>
 
 ## <span id="head2"> 类型</span>
@@ -130,17 +134,17 @@
 
 # <span id="head18"> CSS</span>
 
-## <span id="head19"> `BFC`</span>
+## <span id="head19"> `BFC`</span>
 
 - [外边距重叠](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/BFC/margin.html#L11)
 - [子元素浮动产生的父元素高度塌陷](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/BFC/clearfix.html#L11)
 - [精确的多列布局](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/BFC/multicolumn.html#L7)
 
-## <span id="head20"> `IFC`</span>
+## <span id="head20"> `IFC`</span>
 
 - [行内元素的垂直对齐方式](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/IFC/baseline.html#L16)
 
-## <span id="head21"> `composite`</span>
+## <span id="head21"> `composite`</span>
 
 - [提升为合成层的条件与好处](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/composite/index.html#L47)
 - [合成层的隐式提升](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/composite/overlap.html#L43)
@@ -154,3 +158,19 @@
 
 - [三角形、梯形](https://github.com/blingbling-110/front-end-practice/blob/7ed40efac69511056c0c601127d0ff335dc1ddee/CSS/CSS%E5%9B%BE%E6%A0%87/index.html#L8)
 - [更多示例](https://github.com/blingbling-110/effects/tree/main/css-icon)
+
+# <span id="head24"> 性能</span>
+
+## <span id="head25"> 预加载</span>
+
+- [`DNS`预获取和预连接](https://github.com/blingbling-110/front-end-practice/blob/c51553aefe7c7ed654da7d1741dd3e33887ab6b1/%E6%80%A7%E8%83%BD/%E9%A2%84%E5%8A%A0%E8%BD%BD/index.html#L11)
+- [预加载和预渲染](https://github.com/blingbling-110/front-end-practice/blob/c51553aefe7c7ed654da7d1741dd3e33887ab6b1/%E6%80%A7%E8%83%BD/%E9%A2%84%E5%8A%A0%E8%BD%BD/index.html#L19)
+
+## <span id="head26"> 懒加载</span>
+
+- [通过监听滚动事件并判断可见性实现](https://github.com/blingbling-110/front-end-practice/blob/c51553aefe7c7ed654da7d1741dd3e33887ab6b1/%E6%80%A7%E8%83%BD/%E6%87%92%E5%8A%A0%E8%BD%BD/onScroll.js#L1)
+- [通过`IntersectionObserver`实现](https://github.com/blingbling-110/front-end-practice/blob/c51553aefe7c7ed654da7d1741dd3e33887ab6b1/%E6%80%A7%E8%83%BD/%E6%87%92%E5%8A%A0%E8%BD%BD/observer.js#L1)
+
+## <span id="head27"> `requestAnimationFrame`</span>
+
+- [通过`raf`插入十万条数据](https://github.com/blingbling-110/front-end-practice/blob/c51553aefe7c7ed654da7d1741dd3e33887ab6b1/%E6%80%A7%E8%83%BD/raf/index.html#L15)
