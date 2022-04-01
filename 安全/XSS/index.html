@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSP -->
+    <meta http-equiv="content-security-policy" content="script-src 'self' 'unsafe-inline' https://rawgit.com;">
+    <title>跨站脚本攻击</title>
+</head>
+
+<body>
+    <!-- 输入 x' onerror='javascript:alert(/xss/) 即可完成XSS攻击 -->
+    <input type="text" id="input" size=50 value="" placeholder="请输入图片地址" />
+    <input type="button" value="显示(XSS)" onclick="runXss()" />
+    <input type="button" value="显示(转义)" onclick="escape()" />
+    <div id="output"></div>
+
+    <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
+    <script>
+        function runXss() {
+            const str = document.getElementById("input").value;
+            document.getElementById("output").innerHTML = "<img src='" + str + "'></img>";
+        }
+        function escape() {
+            const str = document.getElementById("input").value;
+            document.getElementById("output").innerHTML = filterXSS("<img src='" + str + "'></img>");
+        }
+    </script>
+</body>
+
+</html>
