@@ -25,6 +25,9 @@
 	- [ 预加载](#head25)
 	- [ 懒加载](#head26)
 	- [ `requestAnimationFrame`](#head27)
+- [ 安全](#head28)
+	- [ `XSS`](#head29)
+	- [ `CSRF`](#head30)
 # <span id="head1"> JS</span>
 
 ## <span id="head2"> 类型</span>
@@ -174,3 +177,15 @@
 ## <span id="head27"> `requestAnimationFrame`</span>
 
 - [通过`raf`插入十万条数据](https://github.com/blingbling-110/front-end-practice/blob/c51553aefe7c7ed654da7d1741dd3e33887ab6b1/%E6%80%A7%E8%83%BD/raf/index.html#L15)
+
+# <span id="head28"> 安全</span>
+
+## <span id="head29"> `XSS`</span>
+
+- [`DOM`型`XSS`](https://github.com/blingbling-110/front-end-practice/blob/879c88bc03c7585a8704b5730c0b02c5b4024db7/%E5%AE%89%E5%85%A8/XSS/index.html#L14)
+- [实体转义与防范](https://github.com/blingbling-110/front-end-practice/blob/879c88bc03c7585a8704b5730c0b02c5b4024db7/%E5%AE%89%E5%85%A8/XSS/index.html#L28)
+- [`CSP`](https://github.com/blingbling-110/front-end-practice/blob/879c88bc03c7585a8704b5730c0b02c5b4024db7/%E5%AE%89%E5%85%A8/XSS/index.html#L9)
+
+## <span id="head30"> `CSRF`</span>
+
+- [表单类`CSRF`](https://github.com/blingbling-110/front-end-practice/blob/879c88bc03c7585a8704b5730c0b02c5b4024db7/%E5%AE%89%E5%85%A8/CSRF/evil.html#L8)
