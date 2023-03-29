@@ -11,3 +11,6 @@ const bubbleSort = arr => {
 const arr = [8, 9, 6, 4, 1, 3, 7, 0, 5, 2]
 bubbleSort(arr)
 console.log(arr)
+
+// 两次循环，时间复杂度O(n∧2)
+// 没有利用额外空间，空间复杂度O(1)
