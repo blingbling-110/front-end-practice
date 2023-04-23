@@ -1,9 +1,7 @@
 const { arr } = require('./shuffle')
 
 function quickSort(arr, start = 0, end = arr.length - 1) {
-    if (start >= end) {
-        return arr
-    }
+    if (start >= end) return arr
     const i = partition(arr, start, end)
     quickSort(arr, start, i - 1)
     quickSort(arr, i + 1, end)

@@ -1,7 +1,7 @@
 const { arr } = require('./shuffle')
 
 function heapSort(arr) {
-    let n = arr.length;
+    let n = arr.length
 
     // 堆调整
     const heapify = i => {
