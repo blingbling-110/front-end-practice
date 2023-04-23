@@ -1,4 +1,4 @@
-function throttle(func, delay, opt = {}) {
+function throttle(func, delay = 300, opt = {}) {
     let timer, ctx, args, res
     let timestamp = 0
     const cb = () => {

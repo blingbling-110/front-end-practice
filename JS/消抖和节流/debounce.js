@@ -1,4 +1,4 @@
-function debounce(func, delay, imm) {
+function debounce(func, delay = 300, imm = true) {
     let begin, timer, ctx, args, res
     const cb = () => {
         // 注意此处的begin为最后一次执行返回函数的时间戳

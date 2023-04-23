@@ -20,6 +20,7 @@ foo.__proto__.__proto__.__proto__ -> null
 `)
 
 // 注意：除了箭头函数没有prototype属性以外，Function.prototype.bind()也没有prototype属性
+// 不是指bind而是绑定后返回的函数
 console.log('Function.prototype.bind().prototype: ', Function.prototype.bind().prototype)
 // 注意：Function.prototype是一个函数，并且是JS引擎创建出来的，而不是实例化出来的
 console.log('Function.prototype: ', Function.prototype)

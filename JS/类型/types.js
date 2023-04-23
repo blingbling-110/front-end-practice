@@ -56,12 +56,19 @@ console.log(`
 5.若Type(x)为String或Number，且Type(y)为Object，返回比较x == ToPrimitive(y)的结果。反之亦然
 6.若不属于以上情况则返回false
 */
+/*
+[] == ![]
+[] == false
+[] == 0,  ToNumber(false)
+ToPrimitive([]), '' == 0
+ToNumber(''), 0 == 0
+*/
 
 /*
 利用对象的内部插槽[[Class]]
 所有对象都有一个内部插槽[[Class]]，不可读，不可枚举，不可修改，不可配置。注意，这不是传统的面向对象意义上的类
 两边出现__下划线__的属性都属于部分浏览器支持的属性。[[]]两个中括号括起来的属性属于JavaScript内部插槽。
-JavaScript中一切皆对象，因此可以利用Object.prototype.toString()方法强制将变量zhuan转换成字符串从而暴露[[Class]]
+JavaScript中一切皆对象，因此可以利用Object.prototype.toString()方法强制将变量转换成字符串从而暴露[[Class]]
 注意：基本类型的[[Class]]为它们的包装类型的[[Class]]，undefined和null也有[[Class]]
 */
 function typeOf(obj) {
