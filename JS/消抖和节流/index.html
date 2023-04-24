@@ -11,15 +11,15 @@
 <body>
     <script src="./debounce.js"></script>
     <script>
-        const doDebounce = debounce(() => console.log('debounced'), 1000, true)
+        const doDebounce = debounce(input => console.log('debounced', input), 1000, true)
     </script>
-    <button onclick="doDebounce()">debounce</button>
+    <button onclick="doDebounce(Date.now())">debounce</button>
     
     <script src="./throttle.js"></script>
     <script>
-        const doThrottle = throttle(() => console.log('throttled'), 1000, { trailing: false })
+        const doThrottle = throttle(input => console.log('throttled', input), 1000, { leading: true, trailing: false })
     </script>
-    <button onclick="doThrottle()">throttle</button>
+    <button onclick="doThrottle(Date.now())">throttle</button>
 </body>
 
 </html>
