@@ -9,7 +9,7 @@ app.use('/', createProxyMiddleware({
 
     // 修改响应头信息，实现跨域并允许带cookie
     onProxyRes: function (proxyRes, req, res) {
-        res.header('Access-Control-Allow-Origin', 'http://source.domain.com');
+        res.header('Access-Control-Allow-Origin', 'http://source.domain.com:5500');
         res.header('Access-Control-Allow-Credentials', 'true');
     },
 
