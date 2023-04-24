@@ -12,7 +12,8 @@
     <!-- 先在 https://httpbin.org/ 下设置cookie：
     document.cookie = 'acc=admin; secure; samesite=none'
     document.cookie = 'pwd=123456; secure; samesite=none'
-    查看“新邮件”并检查POST请求标头，会发现已经带上了cookie -->
+    查看“新邮件”并检查POST请求标头，会发现已经带上了cookie
+    如何防止CSRF：https://tech.meituan.com/2018/10/11/fe-security-csrf.html -->
     <button onclick="read()">新邮件</button>
     <br>
     <iframe src="" frameborder="0"></iframe>
