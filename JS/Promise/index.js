@@ -1,6 +1,6 @@
 // 状态常量
 const PENDING = 'pending'
-const RESOLVED = 'resolved'
+const FULFILLED = 'fulfilled'
 const REJECTED = 'rejected'
 
 // 推入微任务队列
@@ -18,9 +18,58 @@ function nextMicrotask(cb) {
         process.nextTick(cb)
     } else {
         // 以上都不行则只能通过宏任务模拟
-        setTimeout(() => cb())
+        setTimeout(cb)
     }
-};
+}
+
+// 处理排期回调结果
+function handleRes(newResult, newPromise, resolve) {
+    if (newResult === newPromise) {
+        // 若回调执行结果和then()需要返回的Promise实例相同，则出现循环引用
+        return newPromise.reject(new TypeError('There is a reference circle'))
+    }
+    if (newResult instanceof MyPromise) {
+        // 回调执行结果可能为Promise实例
+        if (newResult.state === PENDING) {
+            // 若状态为待定则继续排期，直到某个Promise实例落定
+            newResult.then(value => handleRes(value, newPromise, resolve), newPromise.reject)
+        } else {
+            // 若状态为落定则将newPromise落定
+            newResult.then(resolve, newPromise.reject)
+        }
+        return
+    }
+    if (newResult !== null && (typeof newResult === 'object' || typeof newResult === 'function')) {
+        // 若排期结果为对象或函数，则调用thenable接口，若未实现thenable接口则直接解决
+        // 确保在result不为Promise实例但实现thenable接口时只执行一次resolve或reject（模拟Promise状态机）
+        let called = false
+        try {
+            const then = newResult.then
+            if (typeof then === 'function') {
+                // 调用thenable接口
+                then.call(newResult, value => {
+                    if (called) return
+                    called = true
+                    nextMicrotask(() => handleRes(value, newPromise, resolve))
+                }, reason => {
+                    if (called) return
+                    called = true
+                    nextMicrotask(() => newPromise.reject(reason))
+                })
+            } else {
+                // 未实现thenable接口，直接解决
+                resolve(newResult)
+            }
+        } catch (reason) {
+            if (called) return
+            called = true
+            newPromise.reject(reason)
+        }
+    } else {
+        // 若排期结果为基本类型，则直接解决
+        resolve(newResult)
+    }
+}
 
 // 自定义Promise
 class MyPromise {
@@ -46,11 +95,9 @@ class MyPromise {
 
     // 解决函数
     resolve = value => {
-        if (this.state !== PENDING) {
-            return
-        }
+        if (this.state !== PENDING) return
         try {
-            this.handleRes(value, this, this._resolve)
+            handleRes(value, this, this._resolve)
         } catch (reason) {
             this.reject(reason)
         }
@@ -58,26 +105,24 @@ class MyPromise {
 
     // 真正解决函数
     _resolve = value => {
-        this.state = RESOLVED
+        this.state = FULFILLED
         this.result = value
         nextMicrotask(() => this.resolveQueue.forEach(cb => cb()))
     }
 
     // 拒绝函数
     reject = reason => {
-        if (this.state !== PENDING) {
-            return
-        }
+        if (this.state !== PENDING) return
         this.state = REJECTED
         this.result = reason
         nextMicrotask(() => this.rejectQueue.forEach(cb => cb()))
     }
 
     // 排期函数
-    then(onResolved, onRejected) {
+    then = (onResolved, onRejected) => {
         // 解决回调和拒绝回调均为可选参数，若不是函数则透传
-        onResolved = typeof onResolved === 'function' ? onResolved : value => value
-        onRejected = typeof onRejected === 'function' ? onRejected : reason => { throw reason }
+        const _onResolved = typeof onResolved === 'function' ? onResolved : value => value
+        const _onRejected = typeof onRejected === 'function' ? onRejected : reason => { throw reason }
         // 必须返回新的Promise实例
         let newPromise
         switch (this.state) {
@@ -85,25 +130,25 @@ class MyPromise {
                 newPromise = new MyPromise((resolve, reject) => {
                     this.resolveQueue.push(() => {
                         try {
-                            this.handleRes(onResolved(this.result), newPromise, resolve)
+                            handleRes(_onResolved(this.result), newPromise, resolve)
                         } catch (reason) {
                             reject(reason)
                         }
                     })
                     this.rejectQueue.push(() => {
                         try {
-                            this.handleRes(onRejected(this.result), newPromise, resolve)
+                            handleRes(_onRejected(this.result), newPromise, resolve)
                         } catch (reason) {
                             reject(reason)
                         }
                     })
                 })
                 break;
-            case RESOLVED:
+            case FULFILLED:
                 // 异步执行排期回调
                 newPromise = new MyPromise((resolve, reject) => nextMicrotask(() => {
                     try {
-                        this.handleRes(onResolved(this.result), newPromise, resolve)
+                        handleRes(_onResolved(this.result), newPromise, resolve)
                     } catch (reason) {
                         reject(reason)
                     }
@@ -112,7 +157,7 @@ class MyPromise {
             case REJECTED:
                 newPromise = new MyPromise((resolve, reject) => nextMicrotask(() => {
                     try {
-                        this.handleRes(onRejected(this.result), newPromise, resolve)
+                        handleRes(_onRejected(this.result), newPromise, resolve)
                     } catch (reason) {
                         reject(reason)
                     }
@@ -122,64 +167,6 @@ class MyPromise {
                 break;
         }
         return newPromise
-    }
-
-    // 处理排期回调结果
-    handleRes(newResult, newPromise, resolve) {
-        if (newResult === newPromise) {
-            // 若回调执行结果和then()需要返回的Promise实例相同，则出现循环引用
-            return newPromise.reject(new TypeError('There is a reference circle'))
-        }
-        if (newResult instanceof MyPromise) {
-            // 回调执行结果可能为Promise实例
-            if (newResult.state === PENDING) {
-                // 若状态为待定则继续排期，直到某个Promise实例落定
-                newResult.then(value => this.handleRes(value, newPromise, resolve), newPromise.reject)
-            } else {
-                // 若状态为落定则将newPromise落定
-                newResult.then(resolve, newPromise.reject)
-            }
-            return
-        }
-        if (newResult !== null && (typeof newResult === 'object' || typeof newResult === 'function')) {
-            // 若排期结果为对象或函数，则调用thenable接口，若未实现thenable接口则直接解决
-            // 确保在result不为Promise实例但实现thenable接口时只执行一次resolve或reject（模拟Promise状态机）
-            let called = false
-            try {
-                const then = newResult.then
-                if (typeof then === 'function') {
-                    // 调用thenable接口
-                    then.call(newResult, value => {
-                        if (called) {
-                            return
-                        } else {
-                            called = true
-                            nextMicrotask(() => this.handleRes(value, newPromise, resolve))
-                        }
-                    }, reason => {
-                        if (called) {
-                            return
-                        } else {
-                            called = true
-                            nextMicrotask(() => newPromise.reject(reason))
-                        }
-                    })
-                } else {
-                    // 未实现thenable接口，直接解决
-                    resolve(newResult)
-                }
-            } catch (reason) {
-                if (called) {
-                    return
-                } else {
-                    called = true
-                    newPromise.reject(reason)
-                }
-            }
-        } else {
-            // 若排期结果为基本类型，则直接解决
-            resolve(newResult)
-        }
     }
 
     // 语法糖
@@ -197,11 +184,11 @@ class MyPromise {
                 const then = value.then
                 if (typeof then === 'function') {
                     // 如果参数是一个thenable对象，Promise.resolve()方法会将这个对象转为 Promise 对象，
-                    // 然后就立即执行thenable对象的then()方法。
+                    // 然后异步调用thenable对象的then()方法。
                     return new MyPromise((resolve, reject) => nextMicrotask(() => then.call(value, resolve, reject)))
                 }
-            } catch (e) {
-                return new MyPromise((_, reject) => reject(e))
+            } catch (reason) {
+                return new MyPromise((_, reject) => reject(reason))
             }
         } else {
             // 如果参数不是具有then()方法的对象，或根本就不是对象，
@@ -242,9 +229,7 @@ class MyPromise {
             typeof promiseList[Symbol.iterator] !== 'function') {
             throw new TypeError(`${promiseList} is not iterable`)
         }
-        if (promiseList.length === 0) {
-            return
-        }
+        if (promiseList.length === 0) return
         // 只要有promise实例落定就落定
         [].forEach.call(promiseList, promise => MyPromise.resolve(promise).then(resolve, reject))
     })
