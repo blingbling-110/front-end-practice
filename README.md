@@ -29,6 +29,7 @@
 	- [ `XSS`](#head29)
 	- [ `CSRF`](#head30)
 - [ 排序](#head31)
+- [ 查找](#head32)
 # <span id="head1"> JS</span>
 
 ## <span id="head2"> 类型</span>
@@ -204,3 +205,10 @@
 - [计数排序](https://github.com/blingbling-110/front-end-practice/blob/b1327a574638b1d9b3badfb8fd889368a9353d79/%E6%8E%92%E5%BA%8F/countingSort.js#L1)
 - [桶排序](https://github.com/blingbling-110/front-end-practice/blob/b1327a574638b1d9b3badfb8fd889368a9353d79/%E6%8E%92%E5%BA%8F/bucketSort.js#L1)
 - [基数排序](https://github.com/blingbling-110/front-end-practice/blob/b1327a574638b1d9b3badfb8fd889368a9353d79/%E6%8E%92%E5%BA%8F/radixSort.js#L1)
+
+# <span id="head32"> 查找</span>
+
+- [顺序查找](https://github.com/blingbling-110/front-end-practice/blob/19a23aaa60722194f688a1619554131a352d3ff6/%E6%9F%A5%E6%89%BE/orderSearch.js#L1)
+- [二分查找](https://github.com/blingbling-110/front-end-practice/blob/19a23aaa60722194f688a1619554131a352d3ff6/%E6%9F%A5%E6%89%BE/binarySearch.js#L1)
+- [插值查找](https://github.com/blingbling-110/front-end-practice/blob/19a23aaa60722194f688a1619554131a352d3ff6/%E6%9F%A5%E6%89%BE/interpolationSearch.js#L1)
+- [斐波拉契查找](https://github.com/blingbling-110/front-end-practice/blob/19a23aaa60722194f688a1619554131a352d3ff6/%E6%9F%A5%E6%89%BE/fibSearch.js#L1)
