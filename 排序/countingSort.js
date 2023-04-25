@@ -1,6 +1,6 @@
 const { arr } = require('./shuffle')
 
-function countingSort(arr, max = Math.max(...arr)) {
+function countingSort(arr, max) {
     const count = Array.from({ length: max + 1 }).fill(0)
     for (let i = 0; i < arr.length; i++) {
         count[arr[i]]++
@@ -14,7 +14,7 @@ function countingSort(arr, max = Math.max(...arr)) {
     }
 }
 
-countingSort(arr)
+countingSort(arr, 9)
 console.log('排序后：', arr)
 
 // 两次循环，一次为n一次为k（k是数组中最大值），时间复杂度为O(n+k)
