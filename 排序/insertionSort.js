@@ -22,4 +22,6 @@ insertionSort(arr)
 console.log('排序后：', arr)
 
 // 两层循环，时间复杂度O(n^2)
-// 没有利用额外空间，空间复杂度O(!)
+// 没有利用额外空间，空间复杂度O(1)
+
+module.exports = insertionSort
