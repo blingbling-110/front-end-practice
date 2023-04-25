@@ -201,3 +201,6 @@
 - [归并排序](https://github.com/blingbling-110/front-end-practice/blob/b27c4240eaa8f9269cab1e899ef751f876245e8a/%E6%8E%92%E5%BA%8F/mergeSort.js#L1)
 - [快速排序](https://github.com/blingbling-110/front-end-practice/blob/b27c4240eaa8f9269cab1e899ef751f876245e8a/%E6%8E%92%E5%BA%8F/quickSort.js#L1)
 - [堆排序](https://github.com/blingbling-110/front-end-practice/blob/b27c4240eaa8f9269cab1e899ef751f876245e8a/%E6%8E%92%E5%BA%8F/heapSort.js#L1)
+- [计数排序](https://github.com/blingbling-110/front-end-practice/blob/b1327a574638b1d9b3badfb8fd889368a9353d79/%E6%8E%92%E5%BA%8F/countingSort.js#L1)
+- [桶排序](https://github.com/blingbling-110/front-end-practice/blob/b1327a574638b1d9b3badfb8fd889368a9353d79/%E6%8E%92%E5%BA%8F/bucketSort.js#L1)
+- [基数排序](https://github.com/blingbling-110/front-end-practice/blob/b1327a574638b1d9b3badfb8fd889368a9353d79/%E6%8E%92%E5%BA%8F/radixSort.js#L1)
