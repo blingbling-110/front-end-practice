@@ -31,7 +31,7 @@ const handleRes = (value, promise, resolve) => {
         // 回调执行结果可能为Promise实例
         if (value.state === PENDING) {
             // 若状态为待定则继续排期，直到某个Promise实例落定
-            value.then(value => handleRes(value, promise, resolve), promise.reject)
+            value.then(v => handleRes(v, promise, resolve), promise.reject)
         } else {
             // 若状态为落定则将newPromise落定
             value.then(resolve, promise.reject)
