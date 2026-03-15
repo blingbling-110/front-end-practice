@@ -23,49 +23,56 @@ const nextMicrotask = cb => {
 }
 
 // 处理排期回调结果
-const handleRes = (newResult, newPromise, resolve) => {
-    if (newResult === newPromise) {
+const handleRes = (value, promise, resolve) => {
+    if (value === promise) {
         // 若回调执行结果和then()需要返回的Promise实例相同，则出现循环引用
-        newPromise.reject(new TypeError('There is a reference circle'))
-    } else if (newResult instanceof MyPromise) {
+        promise.reject(new TypeError('There is a reference circle'))
+    } else if (value instanceof MyPromise) {
         // 回调执行结果可能为Promise实例
-        if (newResult.state === PENDING) {
+        if (value.state === PENDING) {
             // 若状态为待定则继续排期，直到某个Promise实例落定
-            newResult.then(value => handleRes(value, newPromise, resolve), newPromise.reject)
+            value.then(value => handleRes(value, promise, resolve), promise.reject)
         } else {
             // 若状态为落定则将newPromise落定
-            newResult.then(resolve, newPromise.reject)
+            value.then(resolve, promise.reject)
         }
-    } else if (newResult !== null && (typeof newResult === 'object' || typeof newResult === 'function')) {
+    } else if (value !== null && (typeof value === 'object' || typeof value === 'function')) {
         // 若排期结果为对象或函数，则调用thenable接口，若未实现thenable接口则直接解决
         // 确保在result不为Promise实例但实现thenable接口时只执行一次resolve或reject（模拟Promise状态机）
         let called = false
         try {
-            const then = newResult.then
+            const then = value.then
             if (typeof then === 'function') {
                 // 调用thenable接口
-                then.call(newResult, value => {
+                then.call(value, value => {
                     if (called) return
                     called = true
-                    nextMicrotask(() => handleRes(value, newPromise, resolve))
+                    nextMicrotask(() => handleRes(value, promise, resolve))
                 }, reason => {
                     if (called) return
                     called = true
-                    nextMicrotask(() => newPromise.reject(reason))
+                    nextMicrotask(() => promise.reject(reason))
                 })
             } else {
                 // 未实现thenable接口，直接解决
-                resolve(newResult)
+                resolve(value)
             }
         } catch (reason) {
             if (called) return
             called = true
-            newPromise.reject(reason)
+            promise.reject(reason)
         }
     } else {
         // 若排期结果为基本类型，则直接解决
-        resolve(newResult)
+        resolve(value)
     }
+}
+
+const checkIterable = promiseList => {
+    if (promiseList === undefined ||
+        promiseList === null ||
+        typeof promiseList[Symbol.iterator] !== 'function'
+    ) throw new TypeError('param is not iterable')
 }
 
 // 自定义Promise
@@ -185,11 +192,7 @@ class MyPromise {
     static reject = reason => new MyPromise((_, reject) => reject(reason))
 
     static all = promiseList => new MyPromise((resolve, reject) => {
-        // 判断入参是否可迭代
-        if (promiseList === undefined ||
-            promiseList === null ||
-            typeof promiseList[Symbol.iterator] !== 'function'
-        ) throw new TypeError(`${promiseList} is not iterable`)
+        checkIterable(promiseList)
         const len = promiseList.length
         // 若入参为空的可迭代对象则返回空数组
         if (len === 0) resolve([])
@@ -204,20 +207,14 @@ class MyPromise {
     })
 
     static race = promiseList => new MyPromise((resolve, reject) => {
-        if (promiseList === undefined ||
-            promiseList === null ||
-            typeof promiseList[Symbol.iterator] !== 'function'
-        ) throw new TypeError(`${promiseList} is not iterable`)
+        checkIterable(promiseList)
         if (promiseList.length === 0) return
         // 只要有promise实例落定就落定
         [].forEach.call(promiseList, promise => MyPromise.resolve(promise).then(resolve, reject))
     })
 
     static allSettled = promiseList => new MyPromise(resolve => {
-        if (promiseList === undefined ||
-            promiseList === null ||
-            typeof promiseList[Symbol.iterator] !== 'function'
-        ) throw new TypeError(`${promiseList} is not iterable`)
+        checkIterable(promiseList)
         const len = promiseList.length
         if (len === 0) resolve([])
         const res = []
@@ -234,10 +231,7 @@ class MyPromise {
     })
 
     static any = promiseList => new MyPromise((resolve, reject) => {
-        if (promiseList === undefined ||
-            promiseList === null ||
-            typeof promiseList[Symbol.iterator] !== 'function'
-        ) throw new TypeError(`${promiseList} is not iterable`)
+        checkIterable(promiseList)
         const len = promiseList.length
         // 若入参为空的可迭代对象则拒绝
         if (len === 0) reject(new AggregateError([], 'All promises were rejected'))
