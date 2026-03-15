@@ -4,7 +4,7 @@ const FULFILLED = 'fulfilled'
 const REJECTED = 'rejected'
 
 // 推入微任务队列
-function nextMicrotask(cb) {
+const nextMicrotask = cb => {
     if (typeof queueMicrotask === 'function') {
         // 优先使用queueMicrotask接口，在window和worker中都有提供
         queueMicrotask(cb)
@@ -23,12 +23,11 @@ function nextMicrotask(cb) {
 }
 
 // 处理排期回调结果
-function handleRes(newResult, newPromise, resolve) {
+const handleRes = (newResult, newPromise, resolve) => {
     if (newResult === newPromise) {
         // 若回调执行结果和then()需要返回的Promise实例相同，则出现循环引用
-        return newPromise.reject(new TypeError('There is a reference circle'))
-    }
-    if (newResult instanceof MyPromise) {
+        newPromise.reject(new TypeError('There is a reference circle'))
+    } else if (newResult instanceof MyPromise) {
         // 回调执行结果可能为Promise实例
         if (newResult.state === PENDING) {
             // 若状态为待定则继续排期，直到某个Promise实例落定
@@ -37,9 +36,7 @@ function handleRes(newResult, newPromise, resolve) {
             // 若状态为落定则将newPromise落定
             newResult.then(resolve, newPromise.reject)
         }
-        return
-    }
-    if (newResult !== null && (typeof newResult === 'object' || typeof newResult === 'function')) {
+    } else if (newResult !== null && (typeof newResult === 'object' || typeof newResult === 'function')) {
         // 若排期结果为对象或函数，则调用thenable接口，若未实现thenable接口则直接解决
         // 确保在result不为Promise实例但实现thenable接口时只执行一次resolve或reject（模拟Promise状态机）
         let called = false
@@ -123,49 +120,33 @@ class MyPromise {
         // 解决回调和拒绝回调均为可选参数，若不是函数则透传
         const _onResolved = typeof onResolved === 'function' ? onResolved : value => value
         const _onRejected = typeof onRejected === 'function' ? onRejected : reason => { throw reason }
+        
         // 必须返回新的Promise实例
         let newPromise
-        switch (this.state) {
-            case PENDING:
-                newPromise = new MyPromise((resolve, reject) => {
-                    this.resolveQueue.push(() => {
-                        try {
-                            handleRes(_onResolved(this.result), newPromise, resolve)
-                        } catch (reason) {
-                            reject(reason)
-                        }
-                    })
-                    this.rejectQueue.push(() => {
-                        try {
-                            handleRes(_onRejected(this.result), newPromise, resolve)
-                        } catch (reason) {
-                            reject(reason)
-                        }
-                    })
-                })
-                break;
-            case FULFILLED:
-                // 异步执行排期回调
-                newPromise = new MyPromise((resolve, reject) => nextMicrotask(() => {
-                    try {
-                        handleRes(_onResolved(this.result), newPromise, resolve)
-                    } catch (reason) {
-                        reject(reason)
-                    }
-                }))
-                break;
-            case REJECTED:
-                newPromise = new MyPromise((resolve, reject) => nextMicrotask(() => {
-                    try {
-                        handleRes(_onRejected(this.result), newPromise, resolve)
-                    } catch (reason) {
-                        reject(reason)
-                    }
-                }))
-                break;
-            default:
-                break;
+        const getCb = fn => () => {
+            try {
+                handleRes(fn(this.result), newPromise, newPromise.resolve)
+            } catch (reason) {
+                newPromise.reject(reason)
+            }
         }
+        newPromise = new MyPromise(() => {
+            switch (this.state) {
+                case PENDING:
+                    this.resolveQueue.push(getCb(_onResolved))
+                    this.rejectQueue.push(getCb(_onRejected))
+                    break
+                case FULFILLED:
+                    // 异步执行排期回调
+                    nextMicrotask(getCb(_onResolved))
+                    break
+                case REJECTED:
+                    nextMicrotask(getCb(_onRejected))
+                    break
+                default:
+                    break
+            }
+        })
         return newPromise
     }
 
@@ -186,12 +167,16 @@ class MyPromise {
                     // 如果参数是一个thenable对象，Promise.resolve()方法会将这个对象转为 Promise 对象，
                     // 然后异步调用thenable对象的then()方法。
                     return new MyPromise((resolve, reject) => nextMicrotask(() => then.call(value, resolve, reject)))
+                } else {
+                    // 如果参数不是具有then()方法的对象，
+                    // 则Promise.resolve()方法返回一个新的 Promise 对象，状态为resolved。
+                    return new MyPromise(resolve => resolve(value))
                 }
             } catch (reason) {
                 return new MyPromise((_, reject) => reject(reason))
             }
         } else {
-            // 如果参数不是具有then()方法的对象，或根本就不是对象，
+            // 如果参数根本就不是对象，
             // 则Promise.resolve()方法返回一个新的 Promise 对象，状态为resolved。
             return new MyPromise(resolve => resolve(value))
         }
@@ -203,32 +188,26 @@ class MyPromise {
         // 判断入参是否可迭代
         if (promiseList === undefined ||
             promiseList === null ||
-            typeof promiseList[Symbol.iterator] !== 'function') {
-            throw new TypeError(`${promiseList} is not iterable`)
-        }
+            typeof promiseList[Symbol.iterator] !== 'function'
+        ) throw new TypeError(`${promiseList} is not iterable`)
         const len = promiseList.length
-        if (len === 0) {
-            // 若入参为空的可迭代对象则返回空数组
-            resolve([])
-        }
+        // 若入参为空的可迭代对象则返回空数组
+        if (len === 0) resolve([])
         const res = []
-        let count = 0;
+        let count = 0
         // 给列表中每个promise排期，注意需要用Promise.resolve包裹
-        [].forEach.call(promiseList, (promise, index) => MyPromise.resolve(promise).then(value => {
+        ;[].forEach.call(promiseList, (promise, index) => MyPromise.resolve(promise).then(value => {
             res[index] = value
-            if (++count === len) {
-                // 等到所有promise实例解决之后才解决
-                resolve(res)
-            }
+            // 等到所有promise实例解决之后才解决
+            if (++count === len) resolve(res)
         }, reject)) // 只要有一个promise实例拒绝则立即拒绝
     })
 
     static race = promiseList => new MyPromise((resolve, reject) => {
         if (promiseList === undefined ||
             promiseList === null ||
-            typeof promiseList[Symbol.iterator] !== 'function') {
-            throw new TypeError(`${promiseList} is not iterable`)
-        }
+            typeof promiseList[Symbol.iterator] !== 'function'
+        ) throw new TypeError(`${promiseList} is not iterable`)
         if (promiseList.length === 0) return
         // 只要有promise实例落定就落定
         [].forEach.call(promiseList, promise => MyPromise.resolve(promise).then(resolve, reject))
@@ -237,55 +216,43 @@ class MyPromise {
     static allSettled = promiseList => new MyPromise(resolve => {
         if (promiseList === undefined ||
             promiseList === null ||
-            typeof promiseList[Symbol.iterator] !== 'function') {
-            throw new TypeError(`${promiseList} is not iterable`)
-        }
+            typeof promiseList[Symbol.iterator] !== 'function'
+        ) throw new TypeError(`${promiseList} is not iterable`)
         const len = promiseList.length
-        if (len === 0) {
-            resolve([])
-        }
+        if (len === 0) resolve([])
         const res = []
-        let count = 0;
-        [].forEach.call(promiseList, (promise, index) => MyPromise.resolve(promise).then(value => {
-            res[index] = { status: 'fulfilled', value }
-            if (++count === len) {
-                resolve(res)
-            }
+        let count = 0
+        ;[].forEach.call(promiseList, (promise, index) => MyPromise.resolve(promise).then(value => {
+            res[index] = { status: FULFILLED, value }
+            if (++count === len) resolve(res)
         }, reason => {
             // 拒绝也纳入最终的结果
-            res[index] = { status: 'rejected', reason }
-            if (++count === len) {
-                // 始终等到所有promise实例落定之后解决
-                resolve(res)
-            }
+            res[index] = { status: REJECTED, reason }
+            // 始终等到所有promise实例落定之后解决
+            if (++count === len) resolve(res)
         }))
     })
 
     static any = promiseList => new MyPromise((resolve, reject) => {
         if (promiseList === undefined ||
             promiseList === null ||
-            typeof promiseList[Symbol.iterator] !== 'function') {
-            throw new TypeError(`${promiseList} is not iterable`)
-        }
+            typeof promiseList[Symbol.iterator] !== 'function'
+        ) throw new TypeError(`${promiseList} is not iterable`)
         const len = promiseList.length
-        if (len === 0) {
-            // 若入参为空的可迭代对象则拒绝
-            reject(new AggregateError([], 'All promises were rejected'))
-        }
+        // 若入参为空的可迭代对象则拒绝
+        if (len === 0) reject(new AggregateError([], 'All promises were rejected'))
         const res = []
-        let count = 0;
+        let count = 0
         // 只要有一个promise实例解决则立即解决
-        [].forEach.call(promiseList, (promise, index) => MyPromise.resolve(promise).then(resolve, reason => {
+        ;[].forEach.call(promiseList, (promise, index) => MyPromise.resolve(promise).then(resolve, reason => {
             res[index] = reason
-            if (++count === len) {
-                // 等到所有promise实例拒绝之后才拒绝
-                reject(new AggregateError(res, 'All promises were rejected'))
-            }
+            // 等到所有promise实例拒绝之后才拒绝
+            if (++count === len) reject(new AggregateError(res, 'All promises were rejected'))
         }))
     })
 
     // promises-aplus-tests
-    static deferred() {
+    static deferred = () => {
         const res = {}
         res.promise = new MyPromise((resolve, reject) => {
             res.resolve = resolve
