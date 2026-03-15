@@ -44,14 +44,14 @@ const handleRes = (value, promise, resolve) => {
             const then = value.then
             if (typeof then === 'function') {
                 // 调用thenable接口
-                then.call(value, value => {
+                then.call(value, v => {
                     if (called) return
                     called = true
-                    nextMicrotask(() => handleRes(value, promise, resolve))
-                }, reason => {
+                    nextMicrotask(() => handleRes(v, promise, resolve))
+                }, r => {
                     if (called) return
                     called = true
-                    nextMicrotask(() => promise.reject(reason))
+                    nextMicrotask(() => promise.reject(r))
                 })
             } else {
                 // 未实现thenable接口，直接解决
