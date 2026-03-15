@@ -125,8 +125,8 @@ class MyPromise {
     // 排期函数
     then = (onResolved, onRejected) => {
         // 解决回调和拒绝回调均为可选参数，若不是函数则透传
-        const _onResolved = typeof onResolved === 'function' ? onResolved : value => value
-        const _onRejected = typeof onRejected === 'function' ? onRejected : reason => { throw reason }
+        const _onResolved = typeof onResolved === 'function' ? onResolved : v => v
+        const _onRejected = typeof onRejected === 'function' ? onRejected : r => { throw r }
         
         // 必须返回新的Promise实例
         let newPromise
