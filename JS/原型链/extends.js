@@ -65,19 +65,22 @@ try {
 // 从以上转译代码可以看出ES6语法糖继承实际上是寄生式组合继承加上父类静态方法的继承
 
 // 手动通过ES5实现MyDate
-function MyEs5Date() { }
+function MyEs5Date() {
+    const instance = new Date(...arguments)
+    // 实例的__proto__改为子类的原型
+    Object.setPrototypeOf(instance, MyEs5Date.prototype)
+    return instance
+}
 // 子类的原型的__proto__改为父类的原型
 Object.setPrototypeOf(MyEs5Date.prototype, Date.prototype)
 MyEs5Date.prototype.test = function () {
     return this.getTime()
 }
-// 先创建父类实例
-const myEs5Date = new Date()
-// 实例的__proto__改为子类的原型
-Object.setPrototypeOf(myEs5Date, MyEs5Date.prototype)
+// 创建子类实例
+const myEs5Date = new MyEs5Date()
 console.log(`
 ------------------ 手动通过ES5实现MyDate ------------------
 myEs5Date instanceof MyEs5Date: ${myEs5Date instanceof MyEs5Date}
 myEs5Date instanceof Date: ${myEs5Date instanceof Date}
 `)
-console.log(myEs5Date.getTime())
+console.log(myEs5Date.test())
