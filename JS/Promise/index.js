@@ -160,10 +160,15 @@ class MyPromise {
     // 语法糖
     catch = onRejected => this.then(null, onRejected)
 
-    finally = onFinally => this.then(
-        value => MyPromise.resolve(onFinally()).then(() => value),
-        reason => MyPromise.resolve(onFinally()).then(() => { throw reason }),
-    )
+    finally = onFinally => {
+        if (typeof onFinally !== 'function') {
+            return this.then(onFinally, onFinally)
+        }
+        return this.then(
+            value => MyPromise.resolve(onFinally()).then(() => value),
+            reason => MyPromise.resolve(onFinally()).then(() => { throw reason }),
+        )
+    }
 
     // 静态方法
     static resolve = value => {
